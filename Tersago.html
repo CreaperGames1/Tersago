@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tersago</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f17;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        /* Side Gradient Accent Animations (Turquoise & Red) */
+        @keyframes shiftTurquoise {
+            0% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(20%) scale(1.15) rotate(10deg); opacity: 0.85; }
+            100% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.6; }
+        }
+
+        @keyframes shiftRed {
+            0% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.55; }
+            50% { transform: translateY(-20%) scale(1.2) rotate(-10deg); opacity: 0.8; }
+            100% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.55; }
+        }
+
+        .side-accent-left {
+            position: fixed;
+            top: 10%;
+            left: -120px;
+            width: 320px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.75) 0%, rgba(6, 182, 212, 0.3) 50%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            animation: shiftTurquoise 9s ease-in-out infinite;
+        }
+
+        .side-accent-right {
+            position: fixed;
+            bottom: 10%;
+            right: -120px;
+            width: 320px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.7) 0%, rgba(225, 29, 72, 0.25) 50%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            animation: shiftRed 11s ease-in-out infinite;
+        }
+
+        /* Glassmorphism styling */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Shake animation for incorrect pin */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake {
+            animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .fade-transition {
+            transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center relative px-6 py-10 selection:bg-teal-500 selection:text-white">
+
+    <!-- Dynamic Side Accents (Tyrkysová & Červená) -->
+    <div class="side-accent-left" aria-hidden="true"></div>
+    <div class="side-accent-right" aria-hidden="true"></div>
+
+    <!-- Header / Top Middle Brand Name (Click trigger for admin) -->
+    <header class="relative z-10 w-full flex justify-center pt-4">
+        <div class="text-center group cursor-pointer select-none" id="brandHeader" title="Click for secret access">
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white uppercase transition-transform duration-300 group-hover:scale-105">
+                Tersago<span class="text-teal-400 group-hover:text-rose-500 transition-colors">.</span>
+            </h1>
+            <p class="text-xs uppercase tracking-[0.3em] text-gray-400 mt-2 font-medium group-hover:text-gray-300">
+                Official Portal
+            </p>
+        </div>
+    </header>
+
+    <!-- Center Content Block -->
+    <main class="relative z-10 my-auto w-full max-w-md">
+        <div class="glass-card rounded-2xl p-8 sm:p-10 text-center flex flex-col items-center justify-center min-h-[220px]">
+            
+            <!-- State 1: Spinning Loading Logo -->
+            <div id="loadingState" class="fade-transition opacity-100 flex flex-col items-center justify-center">
+                <div class="relative w-14 h-14 flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-teal-400 border-r-rose-500 animate-spin"></div>
+                    <div class="w-8 h-8 rounded-full bg-slate-800 border border-gray-700 flex items-center justify-center">
+                        <div class="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse"></div>
+                    </div>
+                </div>
+                <p class="mt-5 text-sm text-gray-400 font-medium tracking-wide">Connecting...</p>
+            </div>
+
+            <!-- State 2: Temporarily Unavailable Message -->
+            <div id="unavailableState" class="fade-transition opacity-0 hidden transform scale-95 flex-col items-center justify-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                    Maintenance
+                </div>
+                
+                <h2 id="displayTitle" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    Temporarily Unavailable
+                </h2>
+                
+                <p id="displayMessage" class="mt-3 text-sm text-gray-400 leading-relaxed max-w-xs">
+                    We are performing scheduled updates to improve our services. Please check back shortly.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 w-full text-center pb-4 text-xs text-gray-500 tracking-wider">
+        &copy; <span id="year"></span> Tersago. All rights reserved.
+    </footer>
+
+    <!-- Secret PIN Modal -->
+    <div id="pinModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="pinModalCard" class="glass-card w-full max-w-sm mx-4 rounded-2xl p-6 text-center transform scale-90 transition-transform duration-300">
+            <div class="w-12 h-12 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-white">Enter Passcode</h3>
+            <p class="text-xs text-gray-400 mt-1 mb-5">Enter secret PIN to unlock admin panel</p>
+            
+            <form id="pinForm" onsubmit="handlePinSubmit(event)">
+                <input 
+                    type="password" 
+                    id="pinInput" 
+                    maxlength="6"
+                    placeholder="Enter PIN"
+                    class="w-full text-center tracking-widest text-xl font-mono py-3 px-4 rounded-xl bg-slate-900/90 border border-gray-700 text-white focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 mb-2"
+                    autocomplete="off"
+                />
+                <p id="pinError" class="text-xs text-rose-400 h-4 mb-3 font-medium opacity-0 transition-opacity">Incorrect passcode</p>
+                
+                <div class="flex gap-2">
+                    <button type="button" onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl border border-gray-700 text-gray-300 hover:bg-gray-800 text-sm font-medium transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors">
+                        Unlock
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel Overlay -->
+    <div id="adminPanel" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col overflow-y-auto">
+        <!-- Admin Header -->
+        <div class="border-b border-gray-800 bg-slate-900/50 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-teal-400 animate-pulse"></div>
+                <h2 class="text-lg font-bold text-white uppercase tracking-wider">Tersago Admin Control</h2>
+            </div>
+            <button onclick="closeAdminPanel()" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold tracking-wide transition-colors">
+                Exit Panel
+            </button>
+        </div>
+
+        <div class="max-w-3xl w-full mx-auto p-6 flex-1 flex flex-col gap-6">
+            
+            <!-- Web Launcher Section -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-white">Target Web Launcher</h3>
+                        <p class="text-xs text-gray-400">Load or redirect to any website directly</p>
+                    </div>
+                    <span class="text-xs px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-400 border border-teal-500/20">Quick Navigation</span>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Target URL</label>
+                        <input 
+                            type="url" 
+                            id="targetUrlInput" 
+                            placeholder="https://example.com" 
+                            value="https://wikipedia.org"
+                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
+                        />
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="launchFrame()" class="py-2.5 px-4 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-2V4m0 0h-4m4 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                            Open in Fullscreen Frame
+                        </button>
+                        <button onclick="redirectUrl()" class="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            Redirect Page Directly
+                        </button>
+                    </div>
+
+                    <!-- Preset Quick Buttons -->
+                    <div class="pt-2">
+                        <span class="text-xs text-gray-400 block mb-2">Quick Presets:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setAndLaunch('https://wikipedia.org')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">Wikipedia</button>
+                            <button onclick="setAndLaunch('https://bing.com')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">Bing</button>
+                            <button onclick="setAndLaunch('https://duckduckgo.com')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">DuckDuckGo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Message & Config Settings -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-base font-bold text-white mb-1">Maintenance Screen Settings</h3>
+                <p class="text-xs text-gray-400 mb-4">Customize what visitors see on the front end</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Title Text</label>
+                        <input 
+                            type="text" 
+                            id="customTitleInput" 
+                            value="Temporarily Unavailable" 
+                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Description Message</label>
+                        <textarea 
+                            id="customMessageInput" 
+                            rows="2"
+                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
+                        >We are performing scheduled updates to improve our services. Please check back shortly.</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Loading Spinner Duration (Seconds)</label>
+                        <input 
+                            type="number" 
+                            id="loadingDurationInput" 
+                            value="2" 
+                            min="0.5" 
+                            step="0.5"
+                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
+                        />
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="saveAdminSettings()" class="py-2.5 px-5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition-colors">
+                            Save Settings
+                        </button>
+                        <button onclick="resetAdminSettings()" class="py-2.5 px-4 rounded-xl border border-gray-700 text-gray-400 hover:bg-gray-800 text-sm transition-colors">
+                            Reset Defaults
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fullscreen iFrame Container -->
+    <div id="frameOverlay" class="fixed inset-0 z-50 bg-slate-950 hidden flex-col">
+        <div class="bg-slate-900 border-b border-gray-800 px-4 py-2 flex items-center justify-between">
+            <span id="frameTitle" class="text-xs text-gray-400 font-mono truncate max-w-md"></span>
+            <button onclick="closeFrameOverlay()" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors">
+                Close Web View
+            </button>
+        </div>
+        <iframe id="webIframe" class="w-full flex-1 border-0" src=""></iframe>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script>
+        // Set dynamic year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // System Settings
+        const SECRET_PIN = "49";
+        let config = {
+            title: "Temporarily Unavailable",
+            message: "We are performing scheduled updates to improve our services. Please check back shortly.",
+            loadDuration: 2.0
+        };
+
+        // Load persisted settings from localStorage
+        function loadSavedSettings() {
+            const saved = localStorage.getItem('tersago_admin_config');
+            if (saved) {
+                try {
+                    config = { ...config, ...JSON.parse(saved) };
+                } catch(e) {}
+            }
+            document.getElementById('displayTitle').textContent = config.title;
+            document.getElementById('displayMessage').textContent = config.message;
+            document.getElementById('customTitleInput').value = config.title;
+            document.getElementById('customMessageInput').value = config.message;
+            document.getElementById('loadingDurationInput').value = config.loadDuration;
+        }
+
+        // Handle initial load animation state
+        function initPageLoader() {
+            const loadingState = document.getElementById('loadingState');
+            const unavailableState = document.getElementById('unavailableState');
+
+            const durationMs = (config.loadDuration || 2) * 1000;
+
+            setTimeout(() => {
+                loadingState.classList.remove('opacity-100');
+                loadingState.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
+                    unavailableState.classList.remove('hidden');
+                    void unavailableState.offsetWidth; // force redraw
+                    unavailableState.classList.remove('opacity-0', 'scale-95');
+                    unavailableState.classList.add('opacity-100', 'scale-100');
+                }, 300);
+
+            }, durationMs);
+        }
+
+        // Secret Trigger Listener
+        document.getElementById('brandHeader').addEventListener('click', openPinModal);
+
+        function openPinModal() {
+            const modal = document.getElementById('pinModal');
+            const card = document.getElementById('pinModalCard');
+            const input = document.getElementById('pinInput');
+            
+            input.value = '';
+            document.getElementById('pinError').classList.add('opacity-0');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modal.classList.add('opacity-100');
+            card.classList.remove('scale-90');
+            card.classList.add('scale-100');
+            
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closePinModal() {
+            const modal = document.getElementById('pinModal');
+            const card = document.getElementById('pinModalCard');
+            
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+            card.classList.add('scale-90');
+            card.classList.remove('scale-100');
+        }
+
+        function handlePinSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('pinInput');
+            const error = document.getElementById('pinError');
+            const card = document.getElementById('pinModalCard');
+
+            if (input.value === SECRET_PIN) {
+                closePinModal();
+                setTimeout(openAdminPanel, 200);
+            } else {
+                error.classList.remove('opacity-0');
+                card.classList.add('animate-shake');
+                input.value = '';
+                setTimeout(() => card.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        // Admin Panel Controls
+        function openAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.remove('pointer-events-none', 'opacity-0');
+            panel.classList.add('opacity-100');
+        }
+
+        function closeAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.add('opacity-0', 'pointer-events-none');
+            panel.classList.remove('opacity-100');
+        }
+
+        // URL Actions
+        function formatUrl(url) {
+            if (!url) return '';
+            let formatted = url.trim();
+            if (!/^https?:\/\//i.test(formatted)) {
+                formatted = 'https://' + formatted;
+            }
+            return formatted;
+        }
+
+        function launchFrame() {
+            const rawUrl = document.getElementById('targetUrlInput').value;
+            const finalUrl = formatUrl(rawUrl);
+            if (!finalUrl) return;
+
+            document.getElementById('webIframe').src = finalUrl;
+            document.getElementById('frameTitle').textContent = finalUrl;
+            document.getElementById('frameOverlay').classList.remove('hidden');
+            document.getElementById('frameOverlay').classList.add('flex');
+        }
+
+        function closeFrameOverlay() {
+            const overlay = document.getElementById('frameOverlay');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            document.getElementById('webIframe').src = '';
+        }
+
+        function redirectUrl() {
+            const rawUrl = document.getElementById('targetUrlInput').value;
+            const finalUrl = formatUrl(rawUrl);
+            if (finalUrl) {
+                window.location.href = finalUrl;
+            }
+        }
+
+        function setAndLaunch(url) {
+            document.getElementById('targetUrlInput').value = url;
+            launchFrame();
+        }
+
+        // Save Admin Settings
+        function saveAdminSettings() {
+            config.title = document.getElementById('customTitleInput').value.trim() || "Temporarily Unavailable";
+            config.message = document.getElementById('customMessageInput').value.trim();
+            config.loadDuration = parseFloat(document.getElementById('loadingDurationInput').value) || 2.0;
+
+            localStorage.setItem('tersago_admin_config', JSON.stringify(config));
+            
+            document.getElementById('displayTitle').textContent = config.title;
+            document.getElementById('displayMessage').textContent = config.message;
+
+            alert('Settings saved successfully!');
+        }
+
+        function resetAdminSettings() {
+            config = {
+                title: "Temporarily Unavailable",
+                message: "We are performing scheduled updates to improve our services. Please check back shortly.",
+                loadDuration: 2.0
+            };
+            localStorage.removeItem('tersago_admin_config');
+            loadSavedSettings();
+            alert('Settings reset to defaults.');
+        }
+
+        // Initialize Page
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedSettings();
+            initPageLoader();
+        });
+    </script>
+</body>
