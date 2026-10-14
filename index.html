@@ -3,70 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tersago</title>
+    <title>Tersago Official Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b0f17;
+            background-color: #080c14;
             color: #f3f4f6;
             overflow-x: hidden;
         }
 
-        /* Side Gradient Accent Animations (Turquoise & Red) */
+        /* Dynamic Side Glow Animations (Turquoise and Red) */
         @keyframes shiftTurquoise {
-            0% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.6; }
-            50% { transform: translateY(20%) scale(1.15) rotate(10deg); opacity: 0.85; }
-            100% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.6; }
+            0% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.65; }
+            50% { transform: translateY(20%) scale(1.2) rotate(12deg); opacity: 0.85; }
+            100% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.65; }
         }
 
         @keyframes shiftRed {
-            0% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.55; }
-            50% { transform: translateY(-20%) scale(1.2) rotate(-10deg); opacity: 0.8; }
-            100% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.55; }
+            0% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20%) scale(1.25) rotate(-12deg); opacity: 0.8; }
+            100% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.6; }
         }
 
         .side-accent-left {
             position: fixed;
-            top: 10%;
-            left: -120px;
-            width: 320px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.75) 0%, rgba(6, 182, 212, 0.3) 50%, rgba(0, 0, 0, 0) 70%);
-            filter: blur(80px);
+            top: 5%;
+            left: -140px;
+            width: 380px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.65) 0%, rgba(6, 182, 212, 0.25) 50%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(90px);
             z-index: 0;
             pointer-events: none;
-            animation: shiftTurquoise 9s ease-in-out infinite;
+            animation: shiftTurquoise 10s ease-in-out infinite;
         }
 
         .side-accent-right {
             position: fixed;
-            bottom: 10%;
-            right: -120px;
-            width: 320px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.7) 0%, rgba(225, 29, 72, 0.25) 50%, rgba(0, 0, 0, 0) 70%);
-            filter: blur(80px);
+            bottom: 5%;
+            right: -140px;
+            width: 380px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.6) 0%, rgba(225, 29, 72, 0.2) 50%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(90px);
             z-index: 0;
             pointer-events: none;
-            animation: shiftRed 11s ease-in-out infinite;
+            animation: shiftRed 12s ease-in-out infinite;
         }
 
-        /* Glassmorphism styling */
+        /* Glassmorphism card utility */
         .glass-card {
-            background: rgba(17, 24, 39, 0.75);
+            background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        /* Shake animation for incorrect pin */
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* PIN Shake animation */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-8px); }
@@ -76,276 +84,461 @@
             animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
         }
 
-        .fade-transition {
-            transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0d9488;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between items-center relative px-6 py-10 selection:bg-teal-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-teal-500 selection:text-white">
 
-    <!-- Dynamic Side Accents (Tyrkysová & Červená) -->
+    <!-- Ambient Turquoise and Red Side Glow Accent Blobs -->
     <div class="side-accent-left" aria-hidden="true"></div>
     <div class="side-accent-right" aria-hidden="true"></div>
 
-    <!-- Header / Top Middle Brand Name (Click trigger for admin) -->
-    <header class="relative z-10 w-full flex justify-center pt-4">
-        <div class="text-center group cursor-pointer select-none" id="brandHeader" title="Click for secret access">
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white uppercase transition-transform duration-300 group-hover:scale-105">
-                Tersago<span class="text-teal-400 group-hover:text-rose-500 transition-colors">.</span>
-            </h1>
-            <p class="text-xs uppercase tracking-[0.3em] text-gray-400 mt-2 font-medium group-hover:text-gray-300">
-                Official Portal
-            </p>
+    <!-- 1. Initial 2-Second Loading Overlay -->
+    <div id="initialLoader" class="fixed inset-0 z-50 bg-[#080c14] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="relative w-20 h-20 flex items-center justify-center mb-6">
+            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-teal-400 border-r-rose-500 animate-spin"></div>
+            <div class="w-12 h-12 rounded-full bg-slate-900 border border-gray-700 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-cube text-teal-400 text-xl animate-pulse"></i>
+            </div>
         </div>
-    </header>
+        <h2 class="text-2xl font-extrabold text-white tracking-widest uppercase">
+            Tersago<span class="text-teal-400">.</span>
+        </h2>
+        <p class="text-xs uppercase tracking-[0.25em] text-teal-400/80 font-semibold mt-2 animate-pulse">
+            Loading Portal...
+        </p>
+    </div>
 
-    <!-- Center Content Block -->
-    <main class="relative z-10 my-auto w-full max-w-md">
-        <div class="glass-card rounded-2xl p-8 sm:p-10 text-center flex flex-col items-center justify-center min-h-[220px]">
-            
-            <!-- State 1: Spinning Loading Logo -->
-            <div id="loadingState" class="fade-transition opacity-100 flex flex-col items-center justify-center">
-                <div class="relative w-14 h-14 flex items-center justify-center">
-                    <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-teal-400 border-r-rose-500 animate-spin"></div>
-                    <div class="w-8 h-8 rounded-full bg-slate-800 border border-gray-700 flex items-center justify-center">
-                        <div class="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse"></div>
+    <!-- Main Portal Application -->
+    <div id="portalApp" class="opacity-0 transition-opacity duration-500 flex flex-col min-h-screen relative z-10">
+        
+        <!-- Header / Navigation Bar -->
+        <header class="glass-nav sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <!-- Secret Admin Trigger Brand Title -->
+                <div id="secretBrandTrigger" class="flex items-center gap-3 cursor-pointer group select-none" title="Click for Admin Panel (PIN: 49)">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500/20 to-rose-500/20 border border-teal-500/30 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-shield-halved text-teal-400 group-hover:text-rose-400 transition-colors"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black tracking-wider text-white uppercase group-hover:text-teal-300 transition-colors">
+                            Tersago<span class="text-rose-500">.</span>
+                        </h1>
+                        <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block -mt-1">
+                            Official Portal
+                        </span>
                     </div>
                 </div>
-                <p class="mt-5 text-sm text-gray-400 font-medium tracking-wide">Connecting...</p>
-            </div>
 
-            <!-- State 2: Temporarily Unavailable Message -->
-            <div id="unavailableState" class="fade-transition opacity-0 hidden transform scale-95 flex-col items-center justify-center">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                    Maintenance
+                <!-- Desktop Navigation Bar -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-gray-800/80">
+                    <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-house"></i> Home
+                    </button>
+                    <a href="games.html" class="px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:text-teal-300 hover:bg-slate-800/60 flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-teal-400"></i> Games
+                        <span class="text-[9px] bg-teal-500/20 border border-teal-500/30 text-teal-300 px-1.5 py-0.5 rounded font-mono">OPEN</span>
+                    </a>
+                    <button onclick="switchTab('about')" id="tab-about" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info"></i> About Us
+                    </button>
+                    <button onclick="switchTab('services')" id="tab-services" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group"></i> Services
+                    </button>
+                    <button onclick="switchTab('community')" id="tab-community" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
+                        <i class="fa-solid fa-users"></i> Community
+                    </button>
+                    <button onclick="switchTab('support')" id="tab-support" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i> Support
+                    </button>
+                </nav>
+
+                <!-- Secret Key & Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openPinModal()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-700/80 text-gray-300 hover:text-teal-400 text-xs font-bold transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-key text-teal-400"></i>
+                        <span class="hidden sm:inline">Admin (49)</span>
+                    </button>
+                    <button onclick="toggleMobileNav()" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-gray-800 text-gray-300 hover:text-white">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
                 </div>
-                
-                <h2 id="displayTitle" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                    Temporarily Unavailable
-                </h2>
-                
-                <p id="displayMessage" class="mt-3 text-sm text-gray-400 leading-relaxed max-w-xs">
-                    We are performing scheduled updates to improve our services. Please check back shortly.
-                </p>
             </div>
 
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="relative z-10 w-full text-center pb-4 text-xs text-gray-500 tracking-wider">
-        &copy; <span id="year"></span> Tersago. All rights reserved.
-    </footer>
-
-    <!-- Secret PIN Modal -->
-    <div id="pinModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-        <div id="pinModalCard" class="glass-card w-full max-w-sm mx-4 rounded-2xl p-6 text-center transform scale-90 transition-transform duration-300">
-            <div class="w-12 h-12 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center mx-auto mb-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+            <!-- Mobile Dropdown Navigation -->
+            <div id="mobileNav" class="hidden md:hidden border-t border-gray-800 bg-slate-950 px-4 py-3 space-y-1">
+                <button onclick="switchTab('home')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-white bg-slate-900 flex items-center justify-between">
+                    <span><i class="fa-solid fa-house mr-2 text-teal-400"></i> Home</span>
+                    <span class="text-[9px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded">Active</span>
+                </button>
+                <a href="games.html" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-teal-300 bg-slate-900/50 hover:bg-slate-900 flex items-center justify-between block">
+                    <span><i class="fa-solid fa-gamepad mr-2 text-teal-400"></i> Games</span>
+                    <span class="text-[9px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded">Available</span>
+                </a>
+                <button onclick="switchTab('about')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
+                    <span><i class="fa-solid fa-circle-info mr-2"></i> About Us</span>
+                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
+                </button>
+                <button onclick="switchTab('services')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
+                    <span><i class="fa-solid fa-layer-group mr-2"></i> Services</span>
+                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
+                </button>
+                <button onclick="switchTab('community')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
+                    <span><i class="fa-solid fa-users mr-2"></i> Community</span>
+                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
+                </button>
+                <button onclick="switchTab('support')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
+                    <span><i class="fa-solid fa-headset mr-2"></i> Support</span>
+                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
+                </button>
             </div>
-            <h3 class="text-lg font-bold text-white">Enter Passcode</h3>
-            <p class="text-xs text-gray-400 mt-1 mb-5">Enter secret PIN to unlock admin panel</p>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- SECTION 1: HOME DASHBOARD -->
+            <section id="section-home" class="tab-content space-y-8">
+                <!-- Hero Banner Card -->
+                <div class="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden border-teal-500/30">
+                    <div class="relative z-10 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold mb-4">
+                            <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                            Welcome to Tersago Portal
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                            Official <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-300">Tersago</span> Platform
+                        </h2>
+                        <p class="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed">
+                            Access games, manage your hub, or unlock secret controls via the top panel. The main gaming module is fully active and ready.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <a href="games.html" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+                                <i class="fa-solid fa-gamepad text-base"></i> Launch Games
+                            </a>
+                            <button onclick="openPinModal()" class="px-6 py-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-gray-700 text-gray-200 text-xs font-bold tracking-wider transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-key text-teal-400"></i> Secret Admin (PIN 49)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid Section for Feature Statuses -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Game Section Card -->
+                    <div class="glass-card rounded-2xl p-6 border-teal-500/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                                <i class="fa-solid fa-gamepad text-lg"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 text-[10px] font-bold">Active</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Games Module</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                            The gaming portal is active and online. Launch into the library directly with a single click.
+                        </p>
+                        <a href="games.html" class="inline-block mt-4 text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors">
+                            Open Games Hub &rarr;
+                        </a>
+                    </div>
+
+                    <!-- System Announcement -->
+                    <div class="glass-card rounded-2xl p-6 border-gray-800">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                <i class="fa-solid fa-bullhorn text-lg"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">Notice</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Portal Update</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                            Full English UI active. Secret Admin override enabled with PIN code <code class="text-teal-400 font-mono">49</code>.
+                        </p>
+                    </div>
+
+                    <!-- Maintenance Status Card -->
+                    <div class="glass-card rounded-2xl p-6 border-rose-500/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                                <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold">Maintenance</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Other Sections</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                            About Us, Services, Community, and Support sections are currently undergoing updates.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: ABOUT US (TEMPORARILY UNAVAILABLE) -->
+            <section id="section-about" class="tab-content hidden">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        Temporarily Unavailable
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">About Us</h2>
+                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                        This section of the Tersago portal is currently under maintenance. Please check back later.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
+                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
+                            &larr; Back to Home
+                        </button>
+                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
+                            Go to Games
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: SERVICES (TEMPORARILY UNAVAILABLE) -->
+            <section id="section-services" class="tab-content hidden">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        Temporarily Unavailable
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Services</h2>
+                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                        Tersago Web Services and API endpoints are currently offline for maintenance.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
+                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
+                            &larr; Back to Home
+                        </button>
+                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
+                            Go to Games
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: SERVICES (TEMPORARILY UNAVAILABLE) -->
+            <section id="section-services" class="tab-content hidden">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        Temporarily Unavailable
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Services</h2>
+                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                        Tersago Web Services and API endpoints are currently offline for maintenance.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
+                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
+                            &larr; Back to Home
+                        </button>
+                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
+                            Go to Games (games.html)
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: COMMUNITY (TEMPORARILY UNAVAILABLE) -->
+            <section id="section-community" class="tab-content hidden">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        Temporarily Unavailable
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Community</h2>
+                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                        Community forums and integration links are temporarily paused.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
+                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
+                            &larr; Back to Home
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: SUPPORT (TEMPORARILY UNAVAILABLE) -->
+            <section id="section-support" class="tab-content hidden">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        Temporarily Unavailable
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Support</h2>
+                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                        Support desk and ticket system are currently closed to the public. Please check back later for assistance.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
+                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
+                            &larr; Back to Home
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-800/80 bg-slate-950/80 backdrop-blur-md py-6 mt-auto relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                    <span>&copy; <span id="year"></span> <strong>Tersago</strong> Official Portal. All rights reserved.</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="openPinModal()" class="hover:text-teal-400 transition-colors">Secret Admin (PIN: 49)</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SECRET PIN MODAL -->
+    <div id="pinModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div id="pinModalCard" class="glass-card w-full max-w-sm rounded-3xl p-6 sm:p-8 text-center transform scale-90 transition-transform duration-300">
+            <div class="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Admin Access</h3>
+            <p class="text-xs text-gray-400 mt-1 mb-6">Enter code <strong class="text-teal-400 font-mono">49</strong> to open the Secret Admin Panel</p>
             
             <form id="pinForm" onsubmit="handlePinSubmit(event)">
                 <input 
                     type="password" 
                     id="pinInput" 
                     maxlength="6"
-                    placeholder="Enter PIN"
-                    class="w-full text-center tracking-widest text-xl font-mono py-3 px-4 rounded-xl bg-slate-900/90 border border-gray-700 text-white focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 mb-2"
+                    placeholder="PIN"
+                    class="w-full text-center tracking-[0.5em] text-2xl font-mono py-3 px-4 rounded-xl bg-slate-900 border border-gray-800 text-white focus:outline-none focus:border-teal-400 mb-2"
                     autocomplete="off"
                 />
-                <p id="pinError" class="text-xs text-rose-400 h-4 mb-3 font-medium opacity-0 transition-opacity">Incorrect passcode</p>
+                <p id="pinError" class="text-xs text-rose-400 h-4 mb-3 font-medium opacity-0 transition-opacity">Incorrect Passcode</p>
                 
                 <div class="flex gap-2">
-                    <button type="button" onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl border border-gray-700 text-gray-300 hover:bg-gray-800 text-sm font-medium transition-colors">
+                    <button type="button" onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl border border-gray-800 text-gray-300 hover:bg-slate-800 text-xs font-bold transition-colors">
                         Cancel
                     </button>
-                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors">
-                        Unlock
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition-colors">
+                        Enter
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Admin Panel Overlay -->
+    <!-- SECRET ADMIN CONTROL PANEL OVERLAY -->
     <div id="adminPanel" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col overflow-y-auto">
-        <!-- Admin Header -->
-        <div class="border-b border-gray-800 bg-slate-900/50 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
+        <div class="border-b border-gray-800 bg-slate-900/60 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
             <div class="flex items-center gap-3">
                 <div class="w-3 h-3 rounded-full bg-teal-400 animate-pulse"></div>
-                <h2 class="text-lg font-bold text-white uppercase tracking-wider">Tersago Admin Control</h2>
+                <h2 class="text-base font-bold text-white uppercase tracking-wider">Tersago Admin Panel</h2>
             </div>
-            <button onclick="closeAdminPanel()" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold tracking-wide transition-colors">
-                Exit Panel
+            <button onclick="closeAdminPanel()" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-bold transition-colors">
+                <i class="fa-solid fa-xmark mr-1"></i> Close Admin
             </button>
         </div>
 
-        <div class="max-w-3xl w-full mx-auto p-6 flex-1 flex flex-col gap-6">
-            
-            <!-- Web Launcher Section -->
+        <div class="max-w-4xl w-full mx-auto p-6 flex-1 space-y-6">
+            <!-- URL Navigation / Web Loader -->
             <div class="glass-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-base font-bold text-white">Target Web Launcher</h3>
-                        <p class="text-xs text-gray-400">Load or redirect to any website directly</p>
-                    </div>
-                    <span class="text-xs px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-400 border border-teal-500/20">Quick Navigation</span>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Target URL</label>
-                        <input 
-                            type="url" 
-                            id="targetUrlInput" 
-                            placeholder="https://example.com" 
-                            value="https://wikipedia.org"
-                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
-                        />
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button onclick="launchFrame()" class="py-2.5 px-4 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition-colors flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-2V4m0 0h-4m4 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
-                            Open in Fullscreen Frame
-                        </button>
-                        <button onclick="redirectUrl()" class="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                            Redirect Page Directly
-                        </button>
-                    </div>
-
-                    <!-- Preset Quick Buttons -->
-                    <div class="pt-2">
-                        <span class="text-xs text-gray-400 block mb-2">Quick Presets:</span>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="setAndLaunch('https://wikipedia.org')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">Wikipedia</button>
-                            <button onclick="setAndLaunch('https://bing.com')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">Bing</button>
-                            <button onclick="setAndLaunch('https://duckduckgo.com')" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300">DuckDuckGo</button>
-                        </div>
-                    </div>
+                <h3 class="text-base font-bold text-white mb-1"><i class="fa-solid fa-globe text-teal-400 mr-2"></i> Web Launcher / Redirect</h3>
+                <p class="text-xs text-gray-400 mb-4">Enter any web address or local file name (e.g., <code class="text-teal-400 font-mono">games.html</code> or <code class="text-teal-400 font-mono">https://google.com</code>) to navigate.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="adminWebUrl" placeholder="games.html or https://..." value="games.html" class="flex-1 py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-800 text-white text-xs focus:outline-none focus:border-teal-400 font-mono">
+                    <button onclick="adminLaunchWeb()" class="px-5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition-colors shrink-0">
+                        Launch URL
+                    </button>
                 </div>
             </div>
 
-            <!-- Custom Message & Config Settings -->
+            <!-- Quick Presets -->
             <div class="glass-card rounded-2xl p-6">
-                <h3 class="text-base font-bold text-white mb-1">Maintenance Screen Settings</h3>
-                <p class="text-xs text-gray-400 mb-4">Customize what visitors see on the front end</p>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Title Text</label>
-                        <input 
-                            type="text" 
-                            id="customTitleInput" 
-                            value="Temporarily Unavailable" 
-                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Description Message</label>
-                        <textarea 
-                            id="customMessageInput" 
-                            rows="2"
-                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
-                        >We are performing scheduled updates to improve our services. Please check back shortly.</textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Loading Spinner Duration (Seconds)</label>
-                        <input 
-                            type="number" 
-                            id="loadingDurationInput" 
-                            value="2" 
-                            min="0.5" 
-                            step="0.5"
-                            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-700 text-white text-sm focus:outline-none focus:border-teal-400"
-                        />
-                    </div>
-
-                    <div class="flex gap-3 pt-2">
-                        <button onclick="saveAdminSettings()" class="py-2.5 px-5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition-colors">
-                            Save Settings
-                        </button>
-                        <button onclick="resetAdminSettings()" class="py-2.5 px-4 rounded-xl border border-gray-700 text-gray-400 hover:bg-gray-800 text-sm transition-colors">
-                            Reset Defaults
-                        </button>
-                    </div>
+                <h3 class="text-base font-bold text-white mb-3"><i class="fa-solid fa-bolt text-teal-400 mr-2"></i> Quick Presets</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setAndLaunch('games.html')" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-800 text-teal-300 text-xs font-semibold">
+                        <i class="fa-solid fa-gamepad mr-1"></i> Games Hub
+                    </button>
+                    <button onclick="setAndLaunch('index.html')" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-800 text-gray-300 text-xs font-semibold">
+                        <i class="fa-solid fa-house mr-1"></i> Portal Home
+                    </button>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Fullscreen iFrame Container -->
-    <div id="frameOverlay" class="fixed inset-0 z-50 bg-slate-950 hidden flex-col">
-        <div class="bg-slate-900 border-b border-gray-800 px-4 py-2 flex items-center justify-between">
-            <span id="frameTitle" class="text-xs text-gray-400 font-mono truncate max-w-md"></span>
-            <button onclick="closeFrameOverlay()" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors">
-                Close Web View
-            </button>
-        </div>
-        <iframe id="webIframe" class="w-full flex-1 border-0" src=""></iframe>
-    </div>
-
-    <!-- Main Logic Script -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // Set dynamic year in footer
+        const SECRET_PIN = "49";
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // System Settings
-        const SECRET_PIN = "49";
-        let config = {
-            title: "Temporarily Unavailable",
-            message: "We are performing scheduled updates to improve our services. Please check back shortly.",
-            loadDuration: 2.0
-        };
-
-        // Load persisted settings from localStorage
-        function loadSavedSettings() {
-            const saved = localStorage.getItem('tersago_admin_config');
-            if (saved) {
-                try {
-                    config = { ...config, ...JSON.parse(saved) };
-                } catch(e) {}
-            }
-            document.getElementById('displayTitle').textContent = config.title;
-            document.getElementById('displayMessage').textContent = config.message;
-            document.getElementById('customTitleInput').value = config.title;
-            document.getElementById('customMessageInput').value = config.message;
-            document.getElementById('loadingDurationInput').value = config.loadDuration;
-        }
-
-        // Handle initial load animation state
-        function initPageLoader() {
-            const loadingState = document.getElementById('loadingState');
-            const unavailableState = document.getElementById('unavailableState');
-
-            const durationMs = (config.loadDuration || 2) * 1000;
-
+        // 1. Initial 2-second loader logic
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                loadingState.classList.remove('opacity-100');
-                loadingState.classList.add('opacity-0');
-
+                const loader = document.getElementById('initialLoader');
+                const app = document.getElementById('portalApp');
+                
+                loader.classList.add('opacity-0');
                 setTimeout(() => {
-                    loadingState.classList.add('hidden');
-                    unavailableState.classList.remove('hidden');
-                    void unavailableState.offsetWidth; // force redraw
-                    unavailableState.classList.remove('opacity-0', 'scale-95');
-                    unavailableState.classList.add('opacity-100', 'scale-100');
-                }, 300);
+                    loader.style.display = 'none';
+                    app.classList.remove('opacity-0');
+                }, 500);
+            }, 2000); // 2-second spinner delay
+        });
 
-            }, durationMs);
+        // 2. Navigation Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2";
+            });
+
+            const activeTab = document.getElementById(`section-${tabId}`);
+            if(activeTab) activeTab.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if(activeBtn) {
+                activeBtn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md";
+            }
+
+            document.getElementById('mobileNav').classList.add('hidden');
         }
 
-        // Secret Trigger Listener
-        document.getElementById('brandHeader').addEventListener('click', openPinModal);
+        function toggleMobileNav() {
+            document.getElementById('mobileNav').classList.toggle('hidden');
+        }
+
+        // 3. Secret Admin Panel Trigger Logic (PIN: 49)
+        document.getElementById('secretBrandTrigger').addEventListener('click', openPinModal);
 
         function openPinModal() {
             const modal = document.getElementById('pinModal');
@@ -358,14 +551,12 @@
             modal.classList.add('opacity-100');
             card.classList.remove('scale-90');
             card.classList.add('scale-100');
-            
             setTimeout(() => input.focus(), 100);
         }
 
         function closePinModal() {
             const modal = document.getElementById('pinModal');
             const card = document.getElementById('pinModalCard');
-            
             modal.classList.add('opacity-0', 'pointer-events-none');
             modal.classList.remove('opacity-100');
             card.classList.add('scale-90');
@@ -389,7 +580,6 @@
             }
         }
 
-        // Admin Panel Controls
         function openAdminPanel() {
             const panel = document.getElementById('adminPanel');
             panel.classList.remove('pointer-events-none', 'opacity-0');
@@ -402,76 +592,17 @@
             panel.classList.remove('opacity-100');
         }
 
-        // URL Actions
-        function formatUrl(url) {
-            if (!url) return '';
-            let formatted = url.trim();
-            if (!/^https?:\/\//i.test(formatted)) {
-                formatted = 'https://' + formatted;
-            }
-            return formatted;
-        }
-
-        function launchFrame() {
-            const rawUrl = document.getElementById('targetUrlInput').value;
-            const finalUrl = formatUrl(rawUrl);
-            if (!finalUrl) return;
-
-            document.getElementById('webIframe').src = finalUrl;
-            document.getElementById('frameTitle').textContent = finalUrl;
-            document.getElementById('frameOverlay').classList.remove('hidden');
-            document.getElementById('frameOverlay').classList.add('flex');
-        }
-
-        function closeFrameOverlay() {
-            const overlay = document.getElementById('frameOverlay');
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
-            document.getElementById('webIframe').src = '';
-        }
-
-        function redirectUrl() {
-            const rawUrl = document.getElementById('targetUrlInput').value;
-            const finalUrl = formatUrl(rawUrl);
-            if (finalUrl) {
-                window.location.href = finalUrl;
+        function adminLaunchWeb() {
+            const url = document.getElementById('adminWebUrl').value.trim();
+            if (url) {
+                window.location.href = url;
             }
         }
 
         function setAndLaunch(url) {
-            document.getElementById('targetUrlInput').value = url;
-            launchFrame();
+            document.getElementById('adminWebUrl').value = url;
+            adminLaunchWeb();
         }
-
-        // Save Admin Settings
-        function saveAdminSettings() {
-            config.title = document.getElementById('customTitleInput').value.trim() || "Temporarily Unavailable";
-            config.message = document.getElementById('customMessageInput').value.trim();
-            config.loadDuration = parseFloat(document.getElementById('loadingDurationInput').value) || 2.0;
-
-            localStorage.setItem('tersago_admin_config', JSON.stringify(config));
-            
-            document.getElementById('displayTitle').textContent = config.title;
-            document.getElementById('displayMessage').textContent = config.message;
-
-            alert('Settings saved successfully!');
-        }
-
-        function resetAdminSettings() {
-            config = {
-                title: "Temporarily Unavailable",
-                message: "We are performing scheduled updates to improve our services. Please check back shortly.",
-                loadDuration: 2.0
-            };
-            localStorage.removeItem('tersago_admin_config');
-            loadSavedSettings();
-            alert('Settings reset to defaults.');
-        }
-
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSavedSettings();
-            initPageLoader();
-        });
     </script>
 </body>
+</html>
