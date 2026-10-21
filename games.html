@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epic Game Zone 🎮</title>
+    <title>Tersago BETA</title>
+    <script>
+        // Hides 'games.html' from the URL address bar immediately upon loading
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, "", window.location.pathname.replace(/games\.html$/, ""));
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -19,7 +25,7 @@
             min-height: 100vh;
         }
 
-        .stars, .stars2, .stars3 {
+        .stars, .stars2 {
             position: fixed;
             top: 0;
             left: 0;
@@ -78,40 +84,14 @@
         }
 
         .login-box h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+            font-size: 2.2rem;
             margin-bottom: 20px;
         }
 
-        .input-group input {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 10px;
+        .login-box p {
+            margin-bottom: 25px;
+            opacity: 0.8;
+            font-size: 1.1rem;
         }
 
         .device-selection {
@@ -138,22 +118,23 @@
         }
 
         .device-btn.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
         }
 
         .login-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00ff88 0%, #00aa55 100%);
             border: none;
             border-radius: 50px;
             font-size: 1.2rem;
             font-weight: bold;
-            color: white;
+            color: #052211;
             cursor: pointer;
             margin-top: 20px;
+            transition: transform 0.2s;
         }
 
         .login-btn:hover {
@@ -229,15 +210,6 @@
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
-        }
-
-        .logout-btn {
-            padding: 10px 20px;
-            background: rgba(255, 0, 0, 0.3);
-            border: 2px solid rgba(255, 0, 0, 0.5);
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
         }
 
         .friends-panel, .notifications-panel {
@@ -642,28 +614,19 @@
 
     <div id="loginScreen" class="login-screen">
         <div class="login-box">
-            <h2>🎮 Welcome!</h2>
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Enter Username">
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Enter Password">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="stayLoggedIn">
-                <label for="stayLoggedIn">Stay Logged In</label>
-            </div>
+            <h2>🎮 Select Device</h2>
+            <p>Choose your controls setup to begin playing!</p>
             <div class="device-selection">
-                <div class="device-btn" id="pcBtn" onclick="selectDevice('pc')">💻<br>PC</div>
+                <div class="device-btn selected" id="pcBtn" onclick="selectDevice('pc')">💻<br>PC</div>
                 <div class="device-btn" id="mobileBtn" onclick="selectDevice('mobile')">📱<br>Mobile</div>
             </div>
-            <button class="login-btn" onclick="login()">Login</button>
+            <button class="login-btn" onclick="startPlay()">Start Playing 🚀</button>
         </div>
     </div>
     
     <div id="mainContent" style="display: none;">
         <div class="top-bar">
-            <div><span id="userDisplay"></span></div>
+            <div><span id="userDisplay">👤 Player (PC)</span></div>
             <div class="top-bar-right">
                 <button class="social-btn youtube-btn" onclick="openSocialModal('youtube')">
                     📺 YouTube
@@ -679,7 +642,6 @@
                     <span class="notification-badge" id="notificationBadge">0</span>
                 </button>
                 <button class="friends-btn" onclick="toggleFriends()">👥 Friends</button>
-                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
 
@@ -702,7 +664,7 @@
         </div>
         
         <header>
-            <p id="welcomeMsg"></p>
+            <p id="welcomeMsg">Welcome, Gamer! 🎮</p>
             <h1 class="glitch">🎮 EPIC GAME ZONE 🎮</h1>
             <p class="subtitle">Choose Your Adventure!</p>
         </header>
@@ -829,8 +791,7 @@
             <div class="mobile-controls" id="snakeMobile">
                 <div class="dpad">
                     <div></div><button onclick="snakeMove('up')">⬆️</button><div></div>
-                    <button onclick="snakeMove('left')">⬅️</button><div></div><button onclick="snakeMove('right')">➡️</button>
-                    <div></div><button onclick="snakeMove('down')">⬇️</button><div></div>
+                    <button onclick="snakeMove('left')">⬅️</button><div></div><button onclick="snakeMove('right')">➡️</button><div></div><button onclick="snakeMove('down')">⬇️</button><div></div>
                 </div>
             </div>
         </div>
@@ -983,8 +944,7 @@
             <div class="mobile-controls" id="mazeMobile">
                 <div class="dpad">
                     <div></div><button onclick="mazeMove('up')">⬆️</button><div></div>
-                    <button onclick="mazeMove('left')">⬅️</button><div></div><button onclick="mazeMove('right')">➡️</button>
-                    <div></div><button onclick="mazeMove('down')">⬇️</button><div></div>
+                    <button onclick="mazeMove('left')">⬅️</button><div></div><button onclick="mazeMove('right')">➡️</button><div></div><button onclick="mazeMove('down')">⬇️</button><div></div>
                 </div>
             </div>
         </div>
@@ -992,7 +952,6 @@
 
     <script>
         let currentDevice = 'pc';
-        let currentUser = '';
         let friends = [];
         let notifications = [];
         let onlineUsers = ['Player1', 'GamerX', 'ProGamer99'];
@@ -1002,7 +961,6 @@
             discord: ''
         };
 
-        // Load saved social links
         function loadSocialLinks() {
             const saved = localStorage.getItem('socialLinks');
             if (saved) {
@@ -1010,24 +968,20 @@
             }
         }
 
-        // Open social modal
         function openSocialModal(platform) {
             const modal = document.getElementById(platform + 'Modal');
             modal.style.display = 'block';
             
-            // Load saved link if exists
             if (socialLinks[platform]) {
                 document.getElementById(platform + 'Input').value = socialLinks[platform];
                 document.getElementById(platform + 'Info').textContent = `Current: ${socialLinks[platform]}`;
             }
         }
 
-        // Close social modal
         function closeSocialModal(platform) {
             document.getElementById(platform + 'Modal').style.display = 'none';
         }
 
-        // Save and visit social link
         function saveSocial(platform) {
             const input = document.getElementById(platform + 'Input').value.trim();
             
@@ -1038,7 +992,6 @@
 
             let url = input;
 
-            // Format the URL correctly
             if (platform === 'youtube') {
                 if (input.startsWith('@')) {
                     url = `https://youtube.com/${input}`;
@@ -1054,20 +1007,15 @@
                 }
             }
 
-            // Save to localStorage
             socialLinks[platform] = input;
             localStorage.setItem('socialLinks', JSON.stringify(socialLinks));
 
-            // Open in new tab
             window.open(url, '_blank');
-            
-            // Close modal
             closeSocialModal(platform);
             
-            alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} link saved! Click the button anytime to visit.`);
+            alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} link saved!`);
         }
 
-        // Click outside modal to close
         window.onclick = function(event) {
             if (event.target.classList.contains('social-modal')) {
                 event.target.style.display = 'none';
@@ -1081,39 +1029,15 @@
             document.getElementById(device + 'Btn').classList.add('selected');
         }
 
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                alert('Please enter username and password!');
-                return;
-            }
-
-            if (!document.getElementById('pcBtn').classList.contains('selected') && 
-                !document.getElementById('mobileBtn').classList.contains('selected')) {
-                alert('Please select PC or Mobile!');
-                return;
-            }
-
-            currentUser = username;
-            
-            if (document.getElementById('stayLoggedIn').checked) {
-                localStorage.setItem('gameUser', username);
-                localStorage.setItem('gameDevice', currentDevice);
-            }
+        function startPlay() {
+            localStorage.setItem('gameDevice', currentDevice);
 
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('welcomeMsg').textContent = `Welcome, ${username}! 🎮`;
-            document.getElementById('userDisplay').textContent = `👤 ${username} (${currentDevice.toUpperCase()})`;
+            document.getElementById('welcomeMsg').textContent = `Welcome, Gamer! 🎮`;
+            document.getElementById('userDisplay').textContent = `👤 Player (${currentDevice.toUpperCase()})`;
 
             updateMobileControls();
-        }
-
-        function logout() {
-            localStorage.clear();
-            location.reload();
         }
 
         function updateMobileControls() {
@@ -1127,23 +1051,18 @@
         }
 
         window.onload = function() {
-            loadSocialLinks(); // Load saved social links
+            loadSocialLinks();
             
-            const savedUser = localStorage.getItem('gameUser');
             const savedDevice = localStorage.getItem('gameDevice');
-            
-            if (savedUser && savedDevice) {
-                currentUser = savedUser;
+            if (savedDevice) {
                 currentDevice = savedDevice;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('welcomeMsg').textContent = `Welcome back, ${savedUser}! 🎮`;
-                document.getElementById('userDisplay').textContent = `👤 ${savedUser} (${savedDevice.toUpperCase()})`;
-                updateMobileControls();
+                document.getElementById('pcBtn').classList.remove('selected');
+                document.getElementById('mobileBtn').classList.remove('selected');
+                document.getElementById(savedDevice + 'Btn').classList.add('selected');
             }
 
             setTimeout(() => {
-                if (currentUser) addNotification('GamerX wants to be your friend!', 'friend-request', 'GamerX');
+                addNotification('GamerX wants to be your friend!', 'friend-request', 'GamerX');
             }, 5000);
         };
 
@@ -1162,7 +1081,6 @@
         function sendFriendRequest() {
             const name = document.getElementById('friendUsername').value.trim();
             if (!name) return alert('Enter a username!');
-            if (name === currentUser) return alert('Cannot add yourself!');
             if (friends.some(f => f.name === name)) return alert('Already friends!');
             
             alert(`Friend request sent to ${name}!`);
@@ -1200,12 +1118,12 @@
                     <p>${n.msg}</p>
                     ${n.type === 'friend-request' ? `
                         <div class="notification-actions">
-                            <button class="accept-btn" onclick="acceptFriend('${n.data}', ${n.id})">Accept</button>
+                            <button class="accept-btn" onclick="acceptFriend('${n.data}',${n.id})">Accept</button>
                             <button class="decline-btn" onclick="declineNotif(${n.id})">Decline</button>
                         </div>
                     ` : n.type === 'friend-accept' ? `
                         <div class="notification-actions">
-                            <button class="accept-btn" onclick="confirmFriend('${n.data}', ${n.id})">OK</button>
+                            <button class="accept-btn" onclick="confirmFriend('${n.data}',${n.id})">OK</button>
                         </div>
                     ` : ''}
                 </div>
@@ -1253,7 +1171,7 @@
         }
 
         function challengeFriend(name) {
-            alert(`Select a multiplayer game to challenge ${name}!`);
+            alert(`Select a game to challenge ${name}!`);
         }
 
         function challengeToGame(game) {

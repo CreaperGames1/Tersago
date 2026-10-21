@@ -1,608 +1,489 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tersago Official Portal</title>
+    <title>Tersago BETA</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#06b6d4',
+                            red: '#ef4444',
+                            dark: '#090d16',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 12s ease infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow-cyan': 'glowCyan 3s ease-in-out infinite alternate',
+                        'glow-red': 'glowRed 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
+                        },
+                        glowCyan: {
+                            '0%': { opacity: '0.3', transform: 'scale(1)' },
+                            '100%': { opacity: '0.7', transform: 'scale(1.15)' },
+                        },
+                        glowRed: {
+                            '0%': { opacity: '0.3', transform: 'scale(1)' },
+                            '100%': { opacity: '0.7', transform: 'scale(1.15)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #080c14;
+            font-family: 'Inter', sans-serif;
+            background-color: #060911;
             color: #f3f4f6;
             overflow-x: hidden;
         }
 
-        /* Dynamic Side Glow Animations (Turquoise and Red) */
-        @keyframes shiftTurquoise {
-            0% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.65; }
-            50% { transform: translateY(20%) scale(1.2) rotate(12deg); opacity: 0.85; }
-            100% { transform: translateY(-20%) scale(1) rotate(0deg); opacity: 0.65; }
-        }
-
-        @keyframes shiftRed {
-            0% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.6; }
-            50% { transform: translateY(-20%) scale(1.25) rotate(-12deg); opacity: 0.8; }
-            100% { transform: translateY(20%) scale(1) rotate(0deg); opacity: 0.6; }
-        }
-
-        .side-accent-left {
-            position: fixed;
-            top: 5%;
-            left: -140px;
-            width: 380px;
-            height: 650px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.65) 0%, rgba(6, 182, 212, 0.25) 50%, rgba(0, 0, 0, 0) 70%);
-            filter: blur(90px);
-            z-index: 0;
-            pointer-events: none;
-            animation: shiftTurquoise 10s ease-in-out infinite;
-        }
-
-        .side-accent-right {
-            position: fixed;
-            bottom: 5%;
-            right: -140px;
-            width: 380px;
-            height: 650px;
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.6) 0%, rgba(225, 29, 72, 0.2) 50%, rgba(0, 0, 0, 0) 70%);
-            filter: blur(90px);
-            z-index: 0;
-            pointer-events: none;
-            animation: shiftRed 12s ease-in-out infinite;
-        }
-
-        /* Glassmorphism card utility */
-        .glass-card {
+        /* Glassmorphism utility */
+        .glass-panel {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .glass-nav {
-            background: rgba(11, 15, 25, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        .glass-panel-glow {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.15);
         }
 
-        /* PIN Shake animation */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-        .animate-shake {
-            animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.3);
+            border-radius: 3px;
         }
-        ::-webkit-scrollbar-track {
-            background: #080c14;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #0d9488;
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(6, 182, 212, 0.6);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative selection:bg-teal-500 selection:text-white">
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-    <!-- Ambient Turquoise and Red Side Glow Accent Blobs -->
-    <div class="side-accent-left" aria-hidden="true"></div>
-    <div class="side-accent-right" aria-hidden="true"></div>
+    <!-- Dynamic Shifting Side Gradient Accents (Cyan & Red) -->
+    <div class="fixed top-0 -left-40 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none z-0 animate-glow-cyan"></div>
+    <div class="fixed bottom-0 -right-40 w-96 h-96 bg-red-500/20 rounded-full blur-[120px] pointer-events-none z-0 animate-glow-red"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-600/10 via-transparent to-red-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
-    <!-- 1. Initial 2-Second Loading Overlay -->
-    <div id="initialLoader" class="fixed inset-0 z-50 bg-[#080c14] flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="relative w-20 h-20 flex items-center justify-center mb-6">
-            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-teal-400 border-r-rose-500 animate-spin"></div>
-            <div class="w-12 h-12 rounded-full bg-slate-900 border border-gray-700 flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-cube text-teal-400 text-xl animate-pulse"></i>
+    <!-- Header / Brand Navigation -->
+    <header class="relative z-20 w-full border-b border-white/10 glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo & Beta Badge -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-red-500 p-[2px] shadow-lg shadow-cyan-500/20">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                        <span class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-red-400">T</span>
+                    </div>
+                </div>
+                <div class="flex items-baseline space-x-2">
+                    <span class="text-2xl font-black tracking-tight text-white">Tersago</span>
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-cyan-400 bg-cyan-950/80 border border-cyan-500/30 px-2 py-0.5 rounded-md shadow-sm shadow-cyan-500/20">
+                        BETA
+                    </span>
+                </div>
+            </div>
+
+            <!-- Demo Status Indicator or Public Tag -->
+            <div id="statusHeaderBadge" class="flex items-center space-x-2 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-full text-xs font-medium text-slate-300">
+                <span id="statusHeaderDot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                <span id="statusHeaderText">Veřejný režim</span>
             </div>
         </div>
-        <h2 class="text-2xl font-extrabold text-white tracking-widest uppercase">
-            Tersago<span class="text-teal-400">.</span>
-        </h2>
-        <p class="text-xs uppercase tracking-[0.25em] text-teal-400/80 font-semibold mt-2 animate-pulse">
-            Loading Portal...
-        </p>
-    </div>
+    </header>
 
-    <!-- Main Portal Application -->
-    <div id="portalApp" class="opacity-0 transition-opacity duration-500 flex flex-col min-h-screen relative z-10">
-        
-        <!-- Header / Navigation Bar -->
-        <header class="glass-nav sticky top-0 z-30">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Main Dynamic Content Container -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow flex items-center justify-center w-full">
+
+        <!-- 1. PUBLIC VIEW: TEMPORARILY UNAVAILABLE / DOČASNĚ NEDOSTUPNÉ -->
+        <div id="publicView" class="w-full max-w-xl text-center space-y-8 glass-panel p-8 sm:p-12 rounded-3xl relative overflow-hidden transition-all duration-500">
+            <!-- Accent Top Line -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-red-500 to-cyan-500 animate-gradient-x"></div>
+
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-slate-900/90 border border-red-500/30 shadow-xl shadow-red-500/10 mb-2">
+                <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+
+            <div class="space-y-3">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    Dočasně nedostupné
+                </h1>
+                <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+                    Portál <span class="text-white font-medium">Tersago BETA</span> aktuálně prochází plánovanou údržbou a aktualizací systémů. Děkujeme za trpělivost.
+                </p>
+            </div>
+
+            <!-- Try Demo Action Button -->
+            <div class="pt-4 border-t border-white/10 flex flex-col items-center justify-center">
+                <button onclick="openPasscodeModal()" class="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 bg-slate-900 border border-cyan-500/40 rounded-xl hover:bg-cyan-950/50 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 active:scale-95">
+                    <span class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-cyan-400 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"/>
+                        </svg>
+                        <span>Vyzkoušet Demo</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. UNLOCKED DEMO DASHBOARD (Hidden initially) -->
+        <div id="demoDashboard" class="w-full space-y-8 hidden transition-all duration-500">
+            <!-- Dashboard Navigation Tabs -->
+            <div class="glass-panel p-2 rounded-2xl flex flex-wrap gap-2 items-center justify-between">
+                <div class="flex flex-wrap gap-1 sm:gap-2">
+                    <button onclick="switchTab('domu')" id="tab-domu" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                        🏠 Domů
+                    </button>
+                    <button onclick="switchTab('onas')" id="tab-onas" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
+                        👥 O nás
+                    </button>
+                    <button onclick="switchTab('sluzby')" id="tab-sluzby" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
+                        ⚙️ Služby
+                    </button>
+                    <button onclick="switchTab('podpora')" id="tab-podpora" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
+                        💬 Podpora
+                    </button>
+                    <button onclick="switchTab('komunita')" id="tab-komunita" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
+                        🌐 Komunita
+                    </button>
+                </div>
                 
-                <!-- Secret Admin Trigger Brand Title -->
-                <div id="secretBrandTrigger" class="flex items-center gap-3 cursor-pointer group select-none" title="Click for Admin Panel (PIN: 49)">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500/20 to-rose-500/20 border border-teal-500/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-shield-halved text-teal-400 group-hover:text-rose-400 transition-colors"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-black tracking-wider text-white uppercase group-hover:text-teal-300 transition-colors">
-                            Tersago<span class="text-rose-500">.</span>
-                        </h1>
-                        <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block -mt-1">
-                            Official Portal
+                <button onclick="lockDemo()" class="px-3 py-2 rounded-xl text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 hover:bg-red-900/60 transition-all">
+                    🔒 Uzamknout Demo
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Domů (Active by default in Demo Mode) -->
+            <div id="content-domu" class="tab-content space-y-8">
+                <!-- Welcome Banner -->
+                <div class="glass-panel-glow p-8 sm:p-10 rounded-3xl relative overflow-hidden">
+                    <div class="max-w-2xl space-y-4">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 border border-cyan-500/30 px-3 py-1 rounded-full">
+                            Demo Přístup Aktivován
                         </span>
-                    </div>
-                </div>
-
-                <!-- Desktop Navigation Bar -->
-                <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-gray-800/80">
-                    <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md flex items-center gap-2">
-                        <i class="fa-solid fa-house"></i> Home
-                    </button>
-                    <a href="games.html" class="px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:text-teal-300 hover:bg-slate-800/60 flex items-center gap-2">
-                        <i class="fa-solid fa-gamepad text-teal-400"></i> Games
-                        <span class="text-[9px] bg-teal-500/20 border border-teal-500/30 text-teal-300 px-1.5 py-0.5 rounded font-mono">OPEN</span>
-                    </a>
-                    <button onclick="switchTab('about')" id="tab-about" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info"></i> About Us
-                    </button>
-                    <button onclick="switchTab('services')" id="tab-services" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group"></i> Services
-                    </button>
-                    <button onclick="switchTab('community')" id="tab-community" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
-                        <i class="fa-solid fa-users"></i> Community
-                    </button>
-                    <button onclick="switchTab('support')" id="tab-support" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2">
-                        <i class="fa-solid fa-headset"></i> Support
-                    </button>
-                </nav>
-
-                <!-- Secret Key & Mobile Toggle -->
-                <div class="flex items-center gap-3">
-                    <button onclick="openPinModal()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-700/80 text-gray-300 hover:text-teal-400 text-xs font-bold transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-key text-teal-400"></i>
-                        <span class="hidden sm:inline">Admin (49)</span>
-                    </button>
-                    <button onclick="toggleMobileNav()" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-gray-800 text-gray-300 hover:text-white">
-                        <i class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Dropdown Navigation -->
-            <div id="mobileNav" class="hidden md:hidden border-t border-gray-800 bg-slate-950 px-4 py-3 space-y-1">
-                <button onclick="switchTab('home')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-white bg-slate-900 flex items-center justify-between">
-                    <span><i class="fa-solid fa-house mr-2 text-teal-400"></i> Home</span>
-                    <span class="text-[9px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded">Active</span>
-                </button>
-                <a href="games.html" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-teal-300 bg-slate-900/50 hover:bg-slate-900 flex items-center justify-between block">
-                    <span><i class="fa-solid fa-gamepad mr-2 text-teal-400"></i> Games</span>
-                    <span class="text-[9px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded">Available</span>
-                </a>
-                <button onclick="switchTab('about')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
-                    <span><i class="fa-solid fa-circle-info mr-2"></i> About Us</span>
-                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
-                </button>
-                <button onclick="switchTab('services')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
-                    <span><i class="fa-solid fa-layer-group mr-2"></i> Services</span>
-                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
-                </button>
-                <button onclick="switchTab('community')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
-                    <span><i class="fa-solid fa-users mr-2"></i> Community</span>
-                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
-                </button>
-                <button onclick="switchTab('support')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:bg-slate-900 flex items-center justify-between">
-                    <span><i class="fa-solid fa-headset mr-2"></i> Support</span>
-                    <span class="text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded">Unavailable</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- Main Body Content -->
-        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            <!-- SECTION 1: HOME DASHBOARD -->
-            <section id="section-home" class="tab-content space-y-8">
-                <!-- Hero Banner Card -->
-                <div class="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden border-teal-500/30">
-                    <div class="relative z-10 max-w-2xl">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold mb-4">
-                            <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-                            Welcome to Tersago Portal
-                        </div>
-                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-                            Official <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-300">Tersago</span> Platform
+                        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                            Vítejte v rozhraní <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-red-400">Tersago BETA</span>
                         </h2>
-                        <p class="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed">
-                            Access games, manage your hub, or unlock secret controls via the top panel. The main gaming module is fully active and ready.
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Procházíte testovací ukázku nového portálu. Získejte okamžitý přístup k integrované herní zóně a vyzkoušejte dostupné funkce.
                         </p>
-                        
-                        <div class="flex flex-wrap gap-4 mt-6">
-                            <a href="games.html" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
-                                <i class="fa-solid fa-gamepad text-base"></i> Launch Games
-                            </a>
-                            <button onclick="openPinModal()" class="px-6 py-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-gray-700 text-gray-200 text-xs font-bold tracking-wider transition-all flex items-center gap-2">
-                                <i class="fa-solid fa-key text-teal-400"></i> Secret Admin (PIN 49)
-                            </button>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Grid Section for Feature Statuses -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Game Section Card -->
-                    <div class="glass-card rounded-2xl p-6 border-teal-500/20">
+                <!-- Featured Action Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Game Zone Launcher Card (Direct launch) -->
+                    <div onclick="launchGames()" class="group glass-panel p-6 rounded-2xl border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 cursor-pointer relative overflow-hidden shadow-lg hover:shadow-cyan-500/10">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all"></div>
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
-                                <i class="fa-solid fa-gamepad text-lg"></i>
+                            <div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                🎮
                             </div>
-                            <span class="px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 text-[10px] font-bold">Active</span>
+                            <span class="text-xs font-bold text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-1 rounded-md">
+                                PLNOU HRA
+                            </span>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Games Module</h3>
-                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
-                            The gaming portal is active and online. Launch into the library directly with a single click.
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                            Herní Zóna
+                        </h3>
+                        <p class="text-slate-400 text-xs sm:text-sm mb-6 leading-relaxed">
+                            Spusťte arkádové retro hry, 1v1 výzvy s přáteli, mobilní i PC ovládání na jednom místě.
                         </p>
-                        <a href="games.html" class="inline-block mt-4 text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors">
-                            Open Games Hub &rarr;
-                        </a>
+                        <div class="inline-flex items-center space-x-2 text-sm font-bold text-cyan-400 group-hover:text-cyan-300">
+                            <span>Spustit Hry zdarma</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </div>
                     </div>
 
-                    <!-- System Announcement -->
-                    <div class="glass-card rounded-2xl p-6 border-gray-800">
+                    <!-- Beta Status Info Card -->
+                    <div class="glass-panel p-6 rounded-2xl border-white/10 relative overflow-hidden">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                                <i class="fa-solid fa-bullhorn text-lg"></i>
+                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-2xl">
+                                ⚡
                             </div>
-                            <span class="px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">Notice</span>
+                            <span class="text-xs font-bold text-amber-400 bg-amber-950/50 border border-amber-500/30 px-2.5 py-1 rounded-md">
+                                STAV VÝVOJE
+                            </span>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Portal Update</h3>
-                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
-                            Full English UI active. Secret Admin override enabled with PIN code <code class="text-teal-400 font-mono">49</code>.
+                        <h3 class="text-xl font-bold text-white mb-2">
+                            Verze 0.9.4 BETA
+                        </h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            Probíhá optimalizace výkonu serverů, synchronizace pro multiplayer a příprava nových modulů.
                         </p>
                     </div>
 
-                    <!-- Maintenance Status Card -->
-                    <div class="glass-card rounded-2xl p-6 border-rose-500/20">
+                    <!-- System Info Card -->
+                    <div class="glass-panel p-6 rounded-2xl border-white/10 relative overflow-hidden">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
-                                <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+                            <div class="w-12 h-12 rounded-xl bg-red-950/60 border border-red-500/30 flex items-center justify-center text-2xl">
+                                🛡️
                             </div>
-                            <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold">Maintenance</span>
+                            <span class="text-xs font-bold text-red-400 bg-red-950/50 border border-red-500/30 px-2.5 py-1 rounded-md">
+                                ZABEZPEČENÍ
+                            </span>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Other Sections</h3>
-                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">
-                            About Us, Services, Community, and Support sections are currently undergoing updates.
+                        <h3 class="text-xl font-bold text-white mb-2">
+                            Aktivní Šifrování
+                        </h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            Vaše relace probíhá v chráněném prostředí se šifrovaným přenosem dat.
                         </p>
                     </div>
-                </div>
-            </section>
-
-            <!-- SECTION 2: ABOUT US (TEMPORARILY UNAVAILABLE) -->
-            <section id="section-about" class="tab-content hidden">
-                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
-                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Temporarily Unavailable
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-white">About Us</h2>
-                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
-                        This section of the Tersago portal is currently under maintenance. Please check back later.
-                    </p>
-                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
-                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
-                            &larr; Back to Home
-                        </button>
-                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
-                            Go to Games
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 3: SERVICES (TEMPORARILY UNAVAILABLE) -->
-            <section id="section-services" class="tab-content hidden">
-                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
-                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
-                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                    </div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Temporarily Unavailable
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-white">Services</h2>
-                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
-                        Tersago Web Services and API endpoints are currently offline for maintenance.
-                    </p>
-                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
-                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
-                            &larr; Back to Home
-                        </button>
-                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
-                            Go to Games
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 3: SERVICES (TEMPORARILY UNAVAILABLE) -->
-            <section id="section-services" class="tab-content hidden">
-                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
-                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
-                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                    </div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Temporarily Unavailable
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-white">Services</h2>
-                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
-                        Tersago Web Services and API endpoints are currently offline for maintenance.
-                    </p>
-                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
-                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
-                            &larr; Back to Home
-                        </button>
-                        <a href="games.html" class="px-4 py-2 rounded-xl bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 border border-teal-500/30 text-xs font-bold transition-all">
-                            Go to Games (games.html)
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 4: COMMUNITY (TEMPORARILY UNAVAILABLE) -->
-            <section id="section-community" class="tab-content hidden">
-                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
-                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Temporarily Unavailable
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-white">Community</h2>
-                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
-                        Community forums and integration links are temporarily paused.
-                    </p>
-                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
-                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
-                            &larr; Back to Home
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 5: SUPPORT (TEMPORARILY UNAVAILABLE) -->
-            <section id="section-support" class="tab-content hidden">
-                <div class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-8 border-rose-500/20">
-                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-6 text-2xl">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide mb-4">
-                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Temporarily Unavailable
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-white">Support</h2>
-                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
-                        Support desk and ticket system are currently closed to the public. Please check back later for assistance.
-                    </p>
-                    <div class="mt-8 pt-6 border-t border-gray-800 flex justify-center gap-3">
-                        <button onclick="switchTab('home')" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:bg-slate-700 text-xs font-bold transition-all">
-                            &larr; Back to Home
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Footer -->
-        <footer class="border-t border-gray-800/80 bg-slate-950/80 backdrop-blur-md py-6 mt-auto relative z-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
-                    <span>&copy; <span id="year"></span> <strong>Tersago</strong> Official Portal. All rights reserved.</span>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button onclick="openPinModal()" class="hover:text-teal-400 transition-colors">Secret Admin (PIN: 49)</button>
                 </div>
             </div>
-        </footer>
-    </div>
 
-    <!-- SECRET PIN MODAL -->
-    <div id="pinModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div id="pinModalCard" class="glass-card w-full max-w-sm rounded-3xl p-6 sm:p-8 text-center transform scale-90 transition-transform duration-300">
-            <div class="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <h3 class="text-xl font-bold text-white">Admin Access</h3>
-            <p class="text-xs text-gray-400 mt-1 mb-6">Enter code <strong class="text-teal-400 font-mono">49</strong> to open the Secret Admin Panel</p>
-            
-            <form id="pinForm" onsubmit="handlePinSubmit(event)">
-                <input 
-                    type="password" 
-                    id="pinInput" 
-                    maxlength="6"
-                    placeholder="PIN"
-                    class="w-full text-center tracking-[0.5em] text-2xl font-mono py-3 px-4 rounded-xl bg-slate-900 border border-gray-800 text-white focus:outline-none focus:border-teal-400 mb-2"
-                    autocomplete="off"
-                />
-                <p id="pinError" class="text-xs text-rose-400 h-4 mb-3 font-medium opacity-0 transition-opacity">Incorrect Passcode</p>
-                
-                <div class="flex gap-2">
-                    <button type="button" onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl border border-gray-800 text-gray-300 hover:bg-slate-800 text-xs font-bold transition-colors">
-                        Cancel
-                    </button>
-                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition-colors">
-                        Enter
-                    </button>
+            <!-- Tab Content 2-5: Temporary Unavailable Sections -->
+            <div id="content-unavailable" class="tab-content hidden glass-panel p-12 rounded-3xl text-center space-y-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-900 border border-white/10 text-amber-400 text-2xl mx-auto">
+                    🚧
                 </div>
-            </form>
+                <div class="space-y-2">
+                    <h3 id="unavailableTitle" class="text-2xl font-bold text-white">
+                        Sekce je dočasně nedostupná
+                    </h3>
+                    <p class="text-slate-400 text-sm max-w-md mx-auto">
+                        Tato část portálu Tersago BETA se připravuje a bude zpřístupněna v nadcházející aktualizaci.
+                    </p>
+                </div>
+                <button onclick="switchTab('domu')" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-sm font-semibold hover:bg-cyan-500/30 transition-all">
+                    <span>Zpět na Domů</span>
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- SECRET ADMIN CONTROL PANEL OVERLAY -->
-    <div id="adminPanel" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col overflow-y-auto">
-        <div class="border-b border-gray-800 bg-slate-900/60 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-            <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-teal-400 animate-pulse"></div>
-                <h2 class="text-base font-bold text-white uppercase tracking-wider">Tersago Admin Panel</h2>
-            </div>
-            <button onclick="closeAdminPanel()" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-bold transition-colors">
-                <i class="fa-solid fa-xmark mr-1"></i> Close Admin
+    </main>
+
+    <!-- SECRET PASSCODE MODAL -->
+    <div id="passcodeModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="w-full max-w-md glass-panel-glow p-6 sm:p-8 rounded-3xl relative shadow-2xl border-cyan-500/40 transform scale-95 transition-transform duration-300" id="modalBox">
+            <!-- Close Button -->
+            <button onclick="closePasscodeModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
-        </div>
 
-        <div class="max-w-4xl w-full mx-auto p-6 flex-1 space-y-6">
-            <!-- URL Navigation / Web Loader -->
-            <div class="glass-card rounded-2xl p-6">
-                <h3 class="text-base font-bold text-white mb-1"><i class="fa-solid fa-globe text-teal-400 mr-2"></i> Web Launcher / Redirect</h3>
-                <p class="text-xs text-gray-400 mb-4">Enter any web address or local file name (e.g., <code class="text-teal-400 font-mono">games.html</code> or <code class="text-teal-400 font-mono">https://google.com</code>) to navigate.</p>
-                
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="text" id="adminWebUrl" placeholder="games.html or https://..." value="games.html" class="flex-1 py-2.5 px-3.5 rounded-xl bg-slate-900 border border-gray-800 text-white text-xs focus:outline-none focus:border-teal-400 font-mono">
-                    <button onclick="adminLaunchWeb()" class="px-5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition-colors shrink-0">
-                        Launch URL
-                    </button>
+            <div class="text-center space-y-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-2xl mx-auto shadow-lg shadow-cyan-500/20">
+                    🔑
                 </div>
-            </div>
 
-            <!-- Quick Presets -->
-            <div class="glass-card rounded-2xl p-6">
-                <h3 class="text-base font-bold text-white mb-3"><i class="fa-solid fa-bolt text-teal-400 mr-2"></i> Quick Presets</h3>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="setAndLaunch('games.html')" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-800 text-teal-300 text-xs font-semibold">
-                        <i class="fa-solid fa-gamepad mr-1"></i> Games Hub
-                    </button>
-                    <button onclick="setAndLaunch('index.html')" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-gray-800 text-gray-300 text-xs font-semibold">
-                        <i class="fa-solid fa-house mr-1"></i> Portal Home
-                    </button>
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-extrabold text-white">
+                        Zadejte Přístupový Kód
+                    </h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Pro přístup do demo verze Tersago zadejte váš PIN kód.
+                    </p>
                 </div>
+
+                <!-- Input Pin Area -->
+                <form onsubmit="handlePasscodeSubmit(event)" class="space-y-4">
+                    <div>
+                        <input type="password" id="passcodeInput" maxlength="6" placeholder="• • •" autocomplete="off"
+                               class="w-full text-center tracking-[1em] text-2xl font-bold py-3.5 bg-slate-950/90 border border-white/20 rounded-xl text-cyan-300 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                    </div>
+
+                    <div id="errorMessage" class="text-xs font-semibold text-red-400 bg-red-950/60 border border-red-500/30 py-2 rounded-lg hidden">
+                        Neplatný přístupový kód! Zkuste to znovu.
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl text-sm font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-teal-300 hover:from-cyan-300 hover:to-teal-200 transition-all shadow-lg shadow-cyan-500/20 active:scale-[0.98]">
+                        Ověřit Kód & Vstoupit
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Footer -->
+    <footer class="relative z-10 w-full border-t border-white/10 glass-panel py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © 2026 Tersago BETA. Všechna práva vyhrazena.
+            </div>
+            <div class="flex space-x-4">
+                <span class="hover:text-slate-400 transition-colors cursor-pointer">Ochrana soukromí</span>
+                <span>•</span>
+                <span class="hover:text-slate-400 transition-colors cursor-pointer">Podmínky užití</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
     <script>
-        const SECRET_PIN = "49";
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // Secret validation check logic (passcode 366)
+        const SECRET_CODE = "366";
+        let isDemoUnlocked = false;
 
-        // 1. Initial 2-second loader logic
-        window.addEventListener('load', () => {
+        // Open Passcode Modal
+        function openPasscodeModal() {
+            const modal = document.getElementById('passcodeModal');
+            const modalBox = document.getElementById('modalBox');
+            const input = document.getElementById('passcodeInput');
+            const err = document.getElementById('errorMessage');
+
+            input.value = '';
+            err.classList.add('hidden');
+            modal.classList.remove('hidden');
+
             setTimeout(() => {
-                const loader = document.getElementById('initialLoader');
-                const app = document.getElementById('portalApp');
-                
-                loader.classList.add('opacity-0');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    app.classList.remove('opacity-0');
-                }, 500);
-            }, 2000); // 2-second spinner delay
-        });
+                modal.classList.remove('opacity-0');
+                modalBox.classList.remove('scale-95');
+                modalBox.classList.add('scale-100');
+                input.focus();
+            }, 10);
+        }
 
-        // 2. Navigation Tab Switcher
+        // Close Passcode Modal
+        function closePasscodeModal() {
+            const modal = document.getElementById('passcodeModal');
+            const modalBox = document.getElementById('modalBox');
+
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            modal.classList.add('opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Handle Passcode Submission
+        function handlePasscodeSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('passcodeInput').value.trim();
+            const err = document.getElementById('errorMessage');
+
+            if (input === SECRET_CODE) {
+                unlockDemo();
+                closePasscodeModal();
+            } else {
+                err.classList.remove('hidden');
+                document.getElementById('passcodeInput').value = '';
+                document.getElementById('passcodeInput').focus();
+            }
+        }
+
+        // Unlock Demo Mode
+        function unlockDemo() {
+            isDemoUnlocked = true;
+            
+            // Hide Public View, Show Demo Dashboard
+            document.getElementById('publicView').classList.add('hidden');
+            document.getElementById('demoDashboard').classList.remove('hidden');
+
+            // Update Header Badge
+            const badgeText = document.getElementById('statusHeaderText');
+            const badgeDot = document.getElementById('statusHeaderDot');
+            
+            badgeText.textContent = "DEMO AKTIVNÍ";
+            badgeText.className = "text-cyan-400 font-bold";
+            badgeDot.className = "w-2 h-2 rounded-full bg-cyan-400 animate-ping";
+
+            // Save state in session
+            sessionStorage.setItem('tersago_demo', 'true');
+        }
+
+        // Lock Demo Mode
+        function lockDemo() {
+            isDemoUnlocked = false;
+            sessionStorage.removeItem('tersago_demo');
+
+            document.getElementById('demoDashboard').classList.add('hidden');
+            document.getElementById('publicView').classList.remove('hidden');
+
+            const badgeText = document.getElementById('statusHeaderText');
+            const badgeDot = document.getElementById('statusHeaderDot');
+            
+            badgeText.textContent = "Veřejný režim";
+            badgeText.className = "";
+            badgeDot.className = "w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+        }
+
+        // Tab Switching Logic
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-slate-800/60 flex items-center gap-2";
+            // Update Tab Button Styles
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5';
             });
 
-            const activeTab = document.getElementById(`section-${tabId}`);
-            if(activeTab) activeTab.classList.remove('hidden');
-
             const activeBtn = document.getElementById(`tab-${tabId}`);
-            if(activeBtn) {
-                activeBtn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md";
+            if (activeBtn) {
+                activeBtn.className = 'tab-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
             }
 
-            document.getElementById('mobileNav').classList.add('hidden');
-        }
+            // Handle Tab Content Visibility
+            const domuContent = document.getElementById('content-domu');
+            const unavailContent = document.getElementById('content-unavailable');
 
-        function toggleMobileNav() {
-            document.getElementById('mobileNav').classList.toggle('hidden');
-        }
-
-        // 3. Secret Admin Panel Trigger Logic (PIN: 49)
-        document.getElementById('secretBrandTrigger').addEventListener('click', openPinModal);
-
-        function openPinModal() {
-            const modal = document.getElementById('pinModal');
-            const card = document.getElementById('pinModalCard');
-            const input = document.getElementById('pinInput');
-            
-            input.value = '';
-            document.getElementById('pinError').classList.add('opacity-0');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-            modal.classList.add('opacity-100');
-            card.classList.remove('scale-90');
-            card.classList.add('scale-100');
-            setTimeout(() => input.focus(), 100);
-        }
-
-        function closePinModal() {
-            const modal = document.getElementById('pinModal');
-            const card = document.getElementById('pinModalCard');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('opacity-100');
-            card.classList.add('scale-90');
-            card.classList.remove('scale-100');
-        }
-
-        function handlePinSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('pinInput');
-            const error = document.getElementById('pinError');
-            const card = document.getElementById('pinModalCard');
-
-            if (input.value === SECRET_PIN) {
-                closePinModal();
-                setTimeout(openAdminPanel, 200);
+            if (tabId === 'domu') {
+                domuContent.classList.remove('hidden');
+                unavailContent.classList.add('hidden');
             } else {
-                error.classList.remove('opacity-0');
-                card.classList.add('animate-shake');
-                input.value = '';
-                setTimeout(() => card.classList.remove('animate-shake'), 400);
+                domuContent.classList.add('hidden');
+                unavailContent.classList.remove('hidden');
+
+                const titles = {
+                    onas: 'Sekce O nás je v přípravě',
+                    sluzby: 'Sekce Služby je v přípravě',
+                    podpora: 'Sekce Podpora je v přípravě',
+                    komunita: 'Sekce Komunita je v přípravě'
+                };
+                document.getElementById('unavailableTitle').textContent = titles[tabId] || 'Dočasně nedostupné';
             }
         }
 
-        function openAdminPanel() {
-            const panel = document.getElementById('adminPanel');
-            panel.classList.remove('pointer-events-none', 'opacity-0');
-            panel.classList.add('opacity-100');
+        // Launch Games (Seamless internal redirection to games.html)
+        function launchGames() {
+            window.location.href = 'games.html';
         }
 
-        function closeAdminPanel() {
-            const panel = document.getElementById('adminPanel');
-            panel.classList.add('opacity-0', 'pointer-events-none');
-            panel.classList.remove('opacity-100');
-        }
-
-        function adminLaunchWeb() {
-            const url = document.getElementById('adminWebUrl').value.trim();
-            if (url) {
-                window.location.href = url;
+        // Go Home Reset
+        function goHome() {
+            if (isDemoUnlocked) {
+                switchTab('domu');
             }
         }
 
-        function setAndLaunch(url) {
-            document.getElementById('adminWebUrl').value = url;
-            adminLaunchWeb();
-        }
+        // Check persistent session on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('tersago_demo') === 'true') {
+                unlockDemo();
+            }
+        });
     </script>
 </body>
 </html>
