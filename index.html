@@ -1,489 +1,188 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tersago BETA</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            cyan: '#06b6d4',
-                            red: '#ef4444',
-                            dark: '#090d16',
-                            card: 'rgba(15, 23, 42, 0.75)',
-                        }
-                    },
-                    animation: {
-                        'gradient-x': 'gradient-x 12s ease infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow-cyan': 'glowCyan 3s ease-in-out infinite alternate',
-                        'glow-red': 'glowRed 3s ease-in-out infinite alternate',
-                    },
-                    keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
-                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
-                        },
-                        glowCyan: {
-                            '0%': { opacity: '0.3', transform: 'scale(1)' },
-                            '100%': { opacity: '0.7', transform: 'scale(1.15)' },
-                        },
-                        glowRed: {
-                            '0%': { opacity: '0.3', transform: 'scale(1)' },
-                            '100%': { opacity: '0.7', transform: 'scale(1.15)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #060911;
-            color: #f3f4f6;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism utility */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-panel-glow {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(6, 182, 212, 0.25);
-            box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.15);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(6, 182, 212, 0.3);
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(6, 182, 212, 0.6);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tersago</title>
+  <meta name="description" content="Tersago — herní portál a digitální hub. Okamžitý přístup k arkádovým hrám, výzvám a komunitě." />
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Tersago.css" />
 </head>
-<body class="min-h-screen relative flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <div class="geo-mesh" aria-hidden="true"></div>
 
-    <!-- Dynamic Shifting Side Gradient Accents (Cyan & Red) -->
-    <div class="fixed top-0 -left-40 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none z-0 animate-glow-cyan"></div>
-    <div class="fixed bottom-0 -right-40 w-96 h-96 bg-red-500/20 rounded-full blur-[120px] pointer-events-none z-0 animate-glow-red"></div>
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-600/10 via-transparent to-red-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
-
-    <!-- Header / Brand Navigation -->
-    <header class="relative z-20 w-full border-b border-white/10 glass-panel">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo & Beta Badge -->
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-red-500 p-[2px] shadow-lg shadow-cyan-500/20">
-                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                        <span class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-red-400">T</span>
-                    </div>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                    <span class="text-2xl font-black tracking-tight text-white">Tersago</span>
-                    <span class="text-[10px] font-bold tracking-widest uppercase text-cyan-400 bg-cyan-950/80 border border-cyan-500/30 px-2 py-0.5 rounded-md shadow-sm shadow-cyan-500/20">
-                        BETA
-                    </span>
-                </div>
-            </div>
-
-            <!-- Demo Status Indicator or Public Tag -->
-            <div id="statusHeaderBadge" class="flex items-center space-x-2 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-full text-xs font-medium text-slate-300">
-                <span id="statusHeaderDot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                <span id="statusHeaderText">Veřejný režim</span>
-            </div>
-        </div>
+  <div class="wrap">
+    <header class="nav" id="nav">
+      <a class="brand" href="#top">
+        <img src="logo.jpg" width="40" height="40" alt="" />
+        <span>Tersago</span>
+      </a>
+      <nav class="nav-links" aria-label="Hlavní navigace">
+        <a href="#hry">Hry</a>
+        <a href="#onas">O nás</a>
+        <a href="#sluzby">Služby</a>
+        <a href="#komunita">Komunita</a>
+        <a href="#podpora">Podpora</a>
+        <a class="nav-cta" href="games.html">Hrát</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </header>
 
-    <!-- Main Dynamic Content Container -->
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow flex items-center justify-center w-full">
-
-        <!-- 1. PUBLIC VIEW: TEMPORARILY UNAVAILABLE / DOČASNĚ NEDOSTUPNÉ -->
-        <div id="publicView" class="w-full max-w-xl text-center space-y-8 glass-panel p-8 sm:p-12 rounded-3xl relative overflow-hidden transition-all duration-500">
-            <!-- Accent Top Line -->
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-red-500 to-cyan-500 animate-gradient-x"></div>
-
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-slate-900/90 border border-red-500/30 shadow-xl shadow-red-500/10 mb-2">
-                <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
-
-            <div class="space-y-3">
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                    Dočasně nedostupné
-                </h1>
-                <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-                    Portál <span class="text-white font-medium">Tersago BETA</span> aktuálně prochází plánovanou údržbou a aktualizací systémů. Děkujeme za trpělivost.
-                </p>
-            </div>
-
-            <!-- Try Demo Action Button -->
-            <div class="pt-4 border-t border-white/10 flex flex-col items-center justify-center">
-                <button onclick="openPasscodeModal()" class="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 bg-slate-900 border border-cyan-500/40 rounded-xl hover:bg-cyan-950/50 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 active:scale-95">
-                    <span class="flex items-center space-x-2">
-                        <svg class="w-4 h-4 text-cyan-400 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"/>
-                        </svg>
-                        <span>Vyzkoušet Demo</span>
-                    </span>
-                </button>
-            </div>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="live-pill">Portál online · BETA</p>
+          <h1 class="brand-hero">
+            Tersago
+            <span>Herní portál bez zbytečností</span>
+          </h1>
+          <p class="lede">
+            Skokni do arkádové zóny, vyzvi přátele a měj všechno na jednom místě — mobil i PC.
+          </p>
+          <div class="cta-row">
+            <a class="btn-primary" href="games.html">Otevřít herní zónu</a>
+            <a class="btn-ghost" href="#onas">Poznat Tersago</a>
+          </div>
         </div>
-
-        <!-- 2. UNLOCKED DEMO DASHBOARD (Hidden initially) -->
-        <div id="demoDashboard" class="w-full space-y-8 hidden transition-all duration-500">
-            <!-- Dashboard Navigation Tabs -->
-            <div class="glass-panel p-2 rounded-2xl flex flex-wrap gap-2 items-center justify-between">
-                <div class="flex flex-wrap gap-1 sm:gap-2">
-                    <button onclick="switchTab('domu')" id="tab-domu" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                        🏠 Domů
-                    </button>
-                    <button onclick="switchTab('onas')" id="tab-onas" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
-                        👥 O nás
-                    </button>
-                    <button onclick="switchTab('sluzby')" id="tab-sluzby" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
-                        ⚙️ Služby
-                    </button>
-                    <button onclick="switchTab('podpora')" id="tab-podpora" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
-                        💬 Podpora
-                    </button>
-                    <button onclick="switchTab('komunita')" id="tab-komunita" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5">
-                        🌐 Komunita
-                    </button>
-                </div>
-                
-                <button onclick="lockDemo()" class="px-3 py-2 rounded-xl text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 hover:bg-red-900/60 transition-all">
-                    🔒 Uzamknout Demo
-                </button>
-            </div>
-
-            <!-- Tab Content 1: Domů (Active by default in Demo Mode) -->
-            <div id="content-domu" class="tab-content space-y-8">
-                <!-- Welcome Banner -->
-                <div class="glass-panel-glow p-8 sm:p-10 rounded-3xl relative overflow-hidden">
-                    <div class="max-w-2xl space-y-4">
-                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 border border-cyan-500/30 px-3 py-1 rounded-full">
-                            Demo Přístup Aktivován
-                        </span>
-                        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                            Vítejte v rozhraní <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-red-400">Tersago BETA</span>
-                        </h2>
-                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                            Procházíte testovací ukázku nového portálu. Získejte okamžitý přístup k integrované herní zóně a vyzkoušejte dostupné funkce.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Featured Action Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Game Zone Launcher Card (Direct launch) -->
-                    <div onclick="launchGames()" class="group glass-panel p-6 rounded-2xl border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 cursor-pointer relative overflow-hidden shadow-lg hover:shadow-cyan-500/10">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all"></div>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                🎮
-                            </div>
-                            <span class="text-xs font-bold text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-1 rounded-md">
-                                PLNOU HRA
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                            Herní Zóna
-                        </h3>
-                        <p class="text-slate-400 text-xs sm:text-sm mb-6 leading-relaxed">
-                            Spusťte arkádové retro hry, 1v1 výzvy s přáteli, mobilní i PC ovládání na jednom místě.
-                        </p>
-                        <div class="inline-flex items-center space-x-2 text-sm font-bold text-cyan-400 group-hover:text-cyan-300">
-                            <span>Spustit Hry zdarma</span>
-                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Beta Status Info Card -->
-                    <div class="glass-panel p-6 rounded-2xl border-white/10 relative overflow-hidden">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-2xl">
-                                ⚡
-                            </div>
-                            <span class="text-xs font-bold text-amber-400 bg-amber-950/50 border border-amber-500/30 px-2.5 py-1 rounded-md">
-                                STAV VÝVOJE
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">
-                            Verze 0.9.4 BETA
-                        </h3>
-                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-                            Probíhá optimalizace výkonu serverů, synchronizace pro multiplayer a příprava nových modulů.
-                        </p>
-                    </div>
-
-                    <!-- System Info Card -->
-                    <div class="glass-panel p-6 rounded-2xl border-white/10 relative overflow-hidden">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-red-950/60 border border-red-500/30 flex items-center justify-center text-2xl">
-                                🛡️
-                            </div>
-                            <span class="text-xs font-bold text-red-400 bg-red-950/50 border border-red-500/30 px-2.5 py-1 rounded-md">
-                                ZABEZPEČENÍ
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">
-                            Aktivní Šifrování
-                        </h3>
-                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-                            Vaše relace probíhá v chráněném prostředí se šifrovaným přenosem dat.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab Content 2-5: Temporary Unavailable Sections -->
-            <div id="content-unavailable" class="tab-content hidden glass-panel p-12 rounded-3xl text-center space-y-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-900 border border-white/10 text-amber-400 text-2xl mx-auto">
-                    🚧
-                </div>
-                <div class="space-y-2">
-                    <h3 id="unavailableTitle" class="text-2xl font-bold text-white">
-                        Sekce je dočasně nedostupná
-                    </h3>
-                    <p class="text-slate-400 text-sm max-w-md mx-auto">
-                        Tato část portálu Tersago BETA se připravuje a bude zpřístupněna v nadcházející aktualizaci.
-                    </p>
-                </div>
-                <button onclick="switchTab('domu')" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-sm font-semibold hover:bg-cyan-500/30 transition-all">
-                    <span>Zpět na Domů</span>
-                </button>
-            </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-stage"></div>
+          <div class="hero-logo">
+            <img src="logo.jpg" alt="" />
+          </div>
+          <p class="hero-meta"><strong>tersago.cz</strong> · verze 1.0</p>
         </div>
+      </section>
 
+      <section class="section" id="hry">
+        <div class="section-head reveal">
+          <p class="section-kicker">Herní zóna</p>
+          <h2>Hraj hned. Žádná instalace.</h2>
+          <p>Retro arkády, 1v1 výzvy a klasiky — spuštěné přímo v prohlížeči.</p>
+        </div>
+        <div class="feature-row">
+          <article class="feature reveal">
+            <p class="feature-index">01</p>
+            <h3>Arkády</h3>
+            <p>Snake, Breakout, Flappy a další klasiky připravené ke spuštění během vteřiny.</p>
+          </article>
+          <article class="feature reveal">
+            <p class="feature-index">02</p>
+            <h3>Výzvy</h3>
+            <p>Pong a další 1v1 módy pro rychlé duely s kamarády na stejném zařízení.</p>
+          </article>
+          <article class="feature reveal">
+            <p class="feature-index">03</p>
+            <h3>Mobil i PC</h3>
+            <p>Stejná herní zóna funguje na telefonu i počítači — ovládání se přizpůsobí.</p>
+          </article>
+        </div>
+        <div class="cta-row" style="margin-top: 2rem;">
+          <a class="btn-primary" href="games.html">Spustit hry</a>
+        </div>
+      </section>
+
+      <section class="section" id="onas">
+        <div class="split">
+          <div class="split-copy reveal">
+            <p class="section-kicker">O nás</p>
+            <h2>Digitální hub stavěný kolem hraní.</h2>
+            <p>
+              Tersago spojuje herní zónu, služby a komunitu pod jednu značku.
+              Cíl je jednoduchý: rychlý přístup, čistý portál a prostor, který rosteme společně.
+            </p>
+            <div class="list">
+              <div class="list-item">
+                <span class="mark" aria-hidden="true"></span>
+                <div>
+                  <strong>Jasný vstup</strong>
+                  <span>Jedna domovská stránka, jedna herní zóna, žádný chaos.</span>
+                </div>
+              </div>
+              <div class="list-item">
+                <span class="mark" aria-hidden="true"></span>
+                <div>
+                  <strong>Postupný vývoj</strong>
+                  <span>Nové moduly přibývají po částech — portál se neustále doladí.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="split-panel reveal" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="section" id="sluzby">
+        <div class="section-head reveal">
+          <p class="section-kicker">Služby</p>
+          <h2>Co Tersago nabízí</h2>
+          <p>Základ portálu je herní. Kolem něj stavíme nástroje a vrstvy, které dávají smysl.</p>
+        </div>
+        <div class="feature-row">
+          <article class="feature reveal">
+            <p class="feature-index">A</p>
+            <h3>Webový portál</h3>
+            <p>Lehký front-end hub s navigací, statusem a přímým vstupem do herní zóny.</p>
+          </article>
+          <article class="feature reveal">
+            <p class="feature-index">B</p>
+            <h3>Herní modul</h3>
+            <p>Prohlížečová knihovna miniher s mobilním i desktopovým ovládáním.</p>
+          </article>
+          <article class="feature reveal">
+            <p class="feature-index">C</p>
+            <h3>Další vrstvy</h3>
+            <p>Komunita, podpora a rozšířené služby se otevírají postupně s aktualizacemi.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="komunita">
+        <div class="split">
+          <div class="split-panel reveal" aria-hidden="true"></div>
+          <div class="split-copy reveal">
+            <p class="section-kicker">Komunita</p>
+            <h2>Hraj s ostatními. Sdílej skóre.</h2>
+            <p>
+              Komunitní vrstva Tersago je připravená na výzvy, přátele a společné sezení
+              v herní zóně. Přidej se a drž se aktualizací.
+            </p>
+            <a class="btn-ghost" href="games.html">Vstoupit do zóny</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="podpora">
+        <div class="cta-band reveal">
+          <div>
+            <p class="section-kicker">Podpora</p>
+            <h2>Něco nefunguje?</h2>
+            <p>
+              Herní zóna běží v prohlížeči — zkuste obnovit stránku nebo jiný prohlížeč.
+              Další kanály podpory doplníme v dalších verzích portálu.
+            </p>
+          </div>
+          <a class="btn-primary" href="games.html">Zpět ke hrám</a>
+        </div>
+      </section>
     </main>
 
-    <!-- SECRET PASSCODE MODAL -->
-    <div id="passcodeModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="w-full max-w-md glass-panel-glow p-6 sm:p-8 rounded-3xl relative shadow-2xl border-cyan-500/40 transform scale-95 transition-transform duration-300" id="modalBox">
-            <!-- Close Button -->
-            <button onclick="closePasscodeModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-
-            <div class="text-center space-y-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-2xl mx-auto shadow-lg shadow-cyan-500/20">
-                    🔑
-                </div>
-
-                <div class="space-y-2">
-                    <h3 class="text-2xl font-extrabold text-white">
-                        Zadejte Přístupový Kód
-                    </h3>
-                    <p class="text-slate-400 text-xs sm:text-sm">
-                        Pro přístup do demo verze Tersago zadejte váš PIN kód.
-                    </p>
-                </div>
-
-                <!-- Input Pin Area -->
-                <form onsubmit="handlePasscodeSubmit(event)" class="space-y-4">
-                    <div>
-                        <input type="password" id="passcodeInput" maxlength="6" placeholder="• • •" autocomplete="off"
-                               class="w-full text-center tracking-[1em] text-2xl font-bold py-3.5 bg-slate-950/90 border border-white/20 rounded-xl text-cyan-300 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all">
-                    </div>
-
-                    <div id="errorMessage" class="text-xs font-semibold text-red-400 bg-red-950/60 border border-red-500/30 py-2 rounded-lg hidden">
-                        Neplatný přístupový kód! Zkuste to znovu.
-                    </div>
-
-                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl text-sm font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-teal-300 hover:from-cyan-300 hover:to-teal-200 transition-all shadow-lg shadow-cyan-500/20 active:scale-[0.98]">
-                        Ověřit Kód & Vstoupit
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="relative z-10 w-full border-t border-white/10 glass-panel py-6 text-center text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-                © 2026 Tersago BETA. Všechna práva vyhrazena.
-            </div>
-            <div class="flex space-x-4">
-                <span class="hover:text-slate-400 transition-colors cursor-pointer">Ochrana soukromí</span>
-                <span>•</span>
-                <span class="hover:text-slate-400 transition-colors cursor-pointer">Podmínky užití</span>
-            </div>
-        </div>
+    <footer class="footer">
+      <p><strong>Tersago</strong> · © <span id="year"></span> · tersago.cz</p>
+      <div class="footer-links">
+        <a href="#hry">Hry</a>
+        <a href="#onas">O nás</a>
+        <a href="#sluzby">Služby</a>
+        <a href="games.html">Herní zóna</a>
+      </div>
     </footer>
+  </div>
 
-    <!-- Logic Script -->
-    <script>
-        // Secret validation check logic (passcode 366)
-        const SECRET_CODE = "366";
-        let isDemoUnlocked = false;
-
-        // Open Passcode Modal
-        function openPasscodeModal() {
-            const modal = document.getElementById('passcodeModal');
-            const modalBox = document.getElementById('modalBox');
-            const input = document.getElementById('passcodeInput');
-            const err = document.getElementById('errorMessage');
-
-            input.value = '';
-            err.classList.add('hidden');
-            modal.classList.remove('hidden');
-
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalBox.classList.remove('scale-95');
-                modalBox.classList.add('scale-100');
-                input.focus();
-            }, 10);
-        }
-
-        // Close Passcode Modal
-        function closePasscodeModal() {
-            const modal = document.getElementById('passcodeModal');
-            const modalBox = document.getElementById('modalBox');
-
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            modal.classList.add('opacity-0');
-
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        // Handle Passcode Submission
-        function handlePasscodeSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('passcodeInput').value.trim();
-            const err = document.getElementById('errorMessage');
-
-            if (input === SECRET_CODE) {
-                unlockDemo();
-                closePasscodeModal();
-            } else {
-                err.classList.remove('hidden');
-                document.getElementById('passcodeInput').value = '';
-                document.getElementById('passcodeInput').focus();
-            }
-        }
-
-        // Unlock Demo Mode
-        function unlockDemo() {
-            isDemoUnlocked = true;
-            
-            // Hide Public View, Show Demo Dashboard
-            document.getElementById('publicView').classList.add('hidden');
-            document.getElementById('demoDashboard').classList.remove('hidden');
-
-            // Update Header Badge
-            const badgeText = document.getElementById('statusHeaderText');
-            const badgeDot = document.getElementById('statusHeaderDot');
-            
-            badgeText.textContent = "DEMO AKTIVNÍ";
-            badgeText.className = "text-cyan-400 font-bold";
-            badgeDot.className = "w-2 h-2 rounded-full bg-cyan-400 animate-ping";
-
-            // Save state in session
-            sessionStorage.setItem('tersago_demo', 'true');
-        }
-
-        // Lock Demo Mode
-        function lockDemo() {
-            isDemoUnlocked = false;
-            sessionStorage.removeItem('tersago_demo');
-
-            document.getElementById('demoDashboard').classList.add('hidden');
-            document.getElementById('publicView').classList.remove('hidden');
-
-            const badgeText = document.getElementById('statusHeaderText');
-            const badgeDot = document.getElementById('statusHeaderDot');
-            
-            badgeText.textContent = "Veřejný režim";
-            badgeText.className = "";
-            badgeDot.className = "w-2 h-2 rounded-full bg-amber-500 animate-pulse";
-        }
-
-        // Tab Switching Logic
-        function switchTab(tabId) {
-            // Update Tab Button Styles
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => {
-                btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white hover:bg-white/5';
-            });
-
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            if (activeBtn) {
-                activeBtn.className = 'tab-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
-            }
-
-            // Handle Tab Content Visibility
-            const domuContent = document.getElementById('content-domu');
-            const unavailContent = document.getElementById('content-unavailable');
-
-            if (tabId === 'domu') {
-                domuContent.classList.remove('hidden');
-                unavailContent.classList.add('hidden');
-            } else {
-                domuContent.classList.add('hidden');
-                unavailContent.classList.remove('hidden');
-
-                const titles = {
-                    onas: 'Sekce O nás je v přípravě',
-                    sluzby: 'Sekce Služby je v přípravě',
-                    podpora: 'Sekce Podpora je v přípravě',
-                    komunita: 'Sekce Komunita je v přípravě'
-                };
-                document.getElementById('unavailableTitle').textContent = titles[tabId] || 'Dočasně nedostupné';
-            }
-        }
-
-        // Launch Games (Seamless internal redirection to games.html)
-        function launchGames() {
-            window.location.href = 'games.html';
-        }
-
-        // Go Home Reset
-        function goHome() {
-            if (isDemoUnlocked) {
-                switchTab('domu');
-            }
-        }
-
-        // Check persistent session on load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('tersago_demo') === 'true') {
-                unlockDemo();
-            }
-        });
-    </script>
+  <script src="Tersago.js"></script>
 </body>
 </html>
